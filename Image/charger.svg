@@ -1,0 +1,185 @@
+```svg
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-labelledby="chgTitle chgDesc">
+  <title id="chgTitle">Premium black and silver charging accessory</title>
+  <desc id="chgDesc">A sleek circular black charging pad with silver metallic edges and a slim cable ending in a connector, shown in three-quarter view on a luxury dark background.</desc>
+
+  <defs>
+    <!-- Backdrop -->
+    <radialGradient id="bg" cx="0.5" cy="0.4" r="0.85">
+      <stop offset="0" stop-color="#2c2c31"/>
+      <stop offset="0.5" stop-color="#111113"/>
+      <stop offset="1" stop-color="#020202"/>
+    </radialGradient>
+
+    <linearGradient id="beam" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <radialGradient id="floorGlow" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#c9ccd1" stop-opacity="0.12"/>
+      <stop offset="1" stop-color="#c9ccd1" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Silver metallic -->
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.25" stop-color="#b9bcc2"/>
+      <stop offset="0.5" stop-color="#474a50"/>
+      <stop offset="0.75" stop-color="#9ea2a9"/>
+      <stop offset="1" stop-color="#e6e8ec"/>
+    </linearGradient>
+
+    <linearGradient id="edgeLight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="0.65" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.35"/>
+    </linearGradient>
+
+    <!-- Side wall -->
+    <linearGradient id="sideWall" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#050506"/>
+      <stop offset="0.12" stop-color="#2e2e34"/>
+      <stop offset="0.3" stop-color="#101012"/>
+      <stop offset="0.55" stop-color="#08080a"/>
+      <stop offset="0.82" stop-color="#26262b"/>
+      <stop offset="1" stop-color="#040405"/>
+    </linearGradient>
+
+    <!-- Top body -->
+    <linearGradient id="topBody" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#4e4e55"/>
+      <stop offset="0.25" stop-color="#1c1c1f"/>
+      <stop offset="0.55" stop-color="#09090a"/>
+      <stop offset="0.8" stop-color="#232327"/>
+      <stop offset="1" stop-color="#3c3c42"/>
+    </linearGradient>
+
+    <radialGradient id="padFace" cx="0.35" cy="0.3" r="0.95">
+      <stop offset="0" stop-color="#2c2c31"/>
+      <stop offset="0.5" stop-color="#141416"/>
+      <stop offset="1" stop-color="#050506"/>
+    </radialGradient>
+
+    <radialGradient id="centerRecess" cx="0.4" cy="0.35" r="0.85">
+      <stop offset="0" stop-color="#1b1b1e"/>
+      <stop offset="0.6" stop-color="#0a0a0c"/>
+      <stop offset="1" stop-color="#030304"/>
+    </radialGradient>
+
+    <!-- Connector gradients -->
+    <linearGradient id="plugBody" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#55555c"/>
+      <stop offset="0.2" stop-color="#242428"/>
+      <stop offset="0.6" stop-color="#08080a"/>
+      <stop offset="1" stop-color="#2a2a2f"/>
+    </linearGradient>
+    <linearGradient id="plugTip" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.4" stop-color="#9ea2a9"/>
+      <stop offset="0.6" stop-color="#4f5258"/>
+      <stop offset="1" stop-color="#c9ccd1"/>
+    </linearGradient>
+
+    <filter id="blurLg" x="-30%" y="-80%" width="160%" height="260%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+    <filter id="blurSm" x="-20%" y="-30%" width="140%" height="160%">
+      <feGaussianBlur stdDeviation="3"/>
+    </filter>
+    <filter id="glowBlur" x="-30%" y="-60%" width="160%" height="220%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
+
+    <clipPath id="faceClip">
+      <ellipse cx="380" cy="360" rx="190" ry="106"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="800" height="800" fill="url(#bg)"/>
+  <polygon points="290,0 510,0 730,620 70,620" fill="url(#beam)"/>
+  <ellipse cx="400" cy="560" rx="360" ry="120" fill="url(#floorGlow)"/>
+
+  <!-- Contact shadows -->
+  <ellipse cx="392" cy="522" rx="262" ry="44" fill="#000000" opacity="0.95" filter="url(#blurLg)"/>
+  <ellipse cx="390" cy="510" rx="214" ry="20" fill="#000000" opacity="0.85" filter="url(#blurSm)"/>
+
+  <!-- ========== Cable ========== -->
+  <!-- Cable shadow -->
+  <path d="M590 330 C710 340, 730 520, 610 585 S440 625, 392 612" fill="none" stroke="#000000" stroke-width="14" stroke-linecap="round" opacity="0.7" filter="url(#blurSm)" transform="translate(0 14)"/>
+  <!-- Cable body -->
+  <path d="M590 330 C710 340, 730 520, 610 585 S440 625, 392 612" fill="none" stroke="#0b0b0d" stroke-width="13" stroke-linecap="round"/>
+  <path d="M590 330 C710 340, 730 520, 610 585 S440 625, 392 612" fill="none" stroke="#2a2a2f" stroke-width="9" stroke-linecap="round"/>
+  <!-- Cable highlight -->
+  <path d="M590 327 C707 337, 726 516, 608 580 S442 620, 392 608" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" opacity="0.4"/>
+
+  <!-- ========== Connector ========== -->
+  <g transform="translate(392 612) rotate(192)">
+    <!-- shadow -->
+    <rect x="4" y="-9" width="104" height="26" rx="8" fill="#000000" opacity="0.6" filter="url(#blurSm)"/>
+    <!-- strain relief -->
+    <path d="M0 -7 L30 -10 L30 10 L0 7 Z" fill="url(#plugBody)" stroke="#000000" stroke-width="1"/>
+    <!-- main body -->
+    <rect x="28" y="-12" width="58" height="24" rx="8" fill="url(#plugBody)"/>
+    <rect x="28.6" y="-11.4" width="56.8" height="22.8" rx="7.4" fill="none" stroke="url(#silver)" stroke-width="1.2" opacity="0.75"/>
+    <rect x="38" y="-10" width="38" height="2" rx="1" fill="#ffffff" opacity="0.4"/>
+    <!-- collar -->
+    <rect x="84" y="-8.5" width="9" height="17" rx="2" fill="url(#plugTip)"/>
+    <!-- tip -->
+    <rect x="92" y="-6" width="26" height="12" rx="5" fill="url(#plugTip)"/>
+    <rect x="92.6" y="-5.4" width="24.8" height="10.8" rx="4.4" fill="none" stroke="#000000" stroke-width="0.8" opacity="0.5"/>
+    <rect x="98" y="-1.2" width="14" height="2.4" rx="1.2" fill="#0b0b0d" opacity="0.85"/>
+  </g>
+
+  <!-- ========== Charging pad ========== -->
+  <g transform="translate(0 -30) rotate(-8 380 360)">
+
+    <!-- Side wall -->
+    <path d="M170 360 V398 A210 118 0 0 0 590 398 V360 Z" fill="url(#sideWall)"/>
+    <path d="M171 398 A209 117 0 0 0 589 398" fill="none" stroke="url(#silver)" stroke-width="1.6" opacity="0.6"/>
+    <path d="M176 390 A204 112 0 0 0 584 390" fill="none" stroke="#000000" stroke-width="3" opacity="0.65"/>
+    <path d="M192 424 A196 108 0 0 0 304 478" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity="0.3"/>
+
+    <!-- Top outer body -->
+    <ellipse cx="380" cy="360" rx="210" ry="118" fill="url(#topBody)"/>
+    <ellipse cx="380" cy="360" rx="209" ry="117" fill="none" stroke="url(#silver)" stroke-width="3"/>
+    <ellipse cx="380" cy="360" rx="204" ry="113" fill="none" stroke="url(#edgeLight)" stroke-width="2" opacity="0.9"/>
+    <ellipse cx="380" cy="360" rx="199" ry="110" fill="none" stroke="#000000" stroke-width="3" opacity="0.8"/>
+
+    <!-- Matte pad face -->
+    <ellipse cx="380" cy="360" rx="190" ry="106" fill="url(#padFace)"/>
+    <ellipse cx="380" cy="360" rx="190" ry="106" fill="none" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+
+    <!-- Decorative concentric rings -->
+    <g fill="none" stroke="#ffffff" clip-path="url(#faceClip)">
+      <ellipse cx="380" cy="360" rx="166" ry="92" stroke-opacity="0.05" stroke-width="1"/>
+      <ellipse cx="380" cy="360" rx="140" ry="78" stroke-opacity="0.03" stroke-width="2"/>
+      <ellipse cx="380" cy="360" rx="112" ry="62" stroke-opacity="0.05" stroke-width="1"/>
+    </g>
+
+    <!-- Soft light ring -->
+    <ellipse cx="380" cy="360" rx="92" ry="51" fill="none" stroke="#e6e8ec" stroke-width="8" opacity="0.4" filter="url(#glowBlur)"/>
+    <ellipse cx="380" cy="360" rx="92" ry="51" fill="none" stroke="url(#silver)" stroke-width="1.6" opacity="0.85"/>
+    <ellipse cx="380" cy="360" rx="86" ry="47.5" fill="none" stroke="#000000" stroke-width="3" opacity="0.8"/>
+
+    <!-- Center recess -->
+    <ellipse cx="380" cy="360" rx="64" ry="35" fill="url(#centerRecess)"/>
+    <ellipse cx="380" cy="360" rx="64" ry="35" fill="none" stroke="#000000" stroke-width="2.4"/>
+    <ellipse cx="380" cy="363" rx="62" ry="33" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+    <ellipse cx="380" cy="360" rx="14" ry="7.5" fill="#050506" stroke="url(#silver)" stroke-width="1.2" opacity="0.9"/>
+
+    <!-- Glossy sweep -->
+    <g clip-path="url(#faceClip)">
+      <path d="M200 360 C 214 276, 320 236, 470 246 C 400 270, 298 304, 200 360 Z" fill="#ffffff" opacity="0.07"/>
+      <ellipse cx="296" cy="300" rx="80" ry="18" fill="#ffffff" opacity="0.045" transform="rotate(-22 296 300)"/>
+    </g>
+
+    <!-- Rim specular glints -->
+    <path d="M206 318 A210 118 0 0 1 278 258" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.6"/>
+    <path d="M306 244 A196 108 0 0 1 396 238" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity="0.5"/>
+    <path d="M544 414 A208 116 0 0 1 480 462" fill="none" stroke="#c9ccd1" stroke-width="2" stroke-linecap="round" opacity="0.4"/>
+  </g>
+</svg>
+```
