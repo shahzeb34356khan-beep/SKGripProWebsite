@@ -1,343 +1,479 @@
-/* =====================================================================
-   SK GRIP PRO - MAIN SCRIPT (js/app.js)
-   Runs on every page. It builds the menu and footer, then runs the
-   code for whichever page is open (home, shop, product, cart, etc.).
-   Needs: js/config.js and js/products.js loaded BEFORE this file.
-   You normally do NOT need to edit this file.
-   ===================================================================== */
-(function () {
+```javascript
+/**
+ * SK GRIP PRO - Main Application Script
+ * File: js/app.js
+ *
+ * Load order on every page:
+ *   1. js/config.js    -> window.STORE_CONFIG
+ *   2. js/products.js  -> window.products
+ *   3. js/app.js       -> this file
+ *
+ * What this file does:
+ *  - Builds the shared header and footer (into #site-header and #site-footer)
+ *  - Provides a mobile navigation menu
+ *  - Renders featured products, categories, shop (search + category filter),
+ *    product details, and the shopping cart
+ *  - Stores the cart in localStorage (product ids and quantities only)
+ *  - Creates WhatsApp order links using the configured WhatsApp number
+ *
+ * Optional page hooks (every one is optional - missing elements are skipped):
+ *   #featured-products   Featured products grid (usually on index.html)
+ *   #category-list       Category links (usually on index.html)
+ *   #product-grid        Product grid (shop.html)
+ *   #product-search      Search input (shop.html)
+ *   #category-filter     Category <select> (shop.html)
+ *   #category-buttons    Category filter buttons (shop.html)
+ *   #results-count       Text showing number of results (shop.html)
+ *   #product-detail      Product details (product.html?id=PRODUCT_ID)
+ *   #cart-items          Cart items (cart.html)
+ *   #cart-summary        Cart summary (cart.html)
+ *   #contact-details     Contact cards (contact.html)
+ *   .faq-item > .faq-question + .faq-answer   Simple FAQ accordion (faq.html)
+ *   [data-store-name] [data-store-phone] [data-store-email]
+ *   [data-store-whatsapp] [data-store-year]   Auto-filled text/links
+ *
+ * Payments: no payment is processed here. No card or bank details are
+ * collected or stored. Orders are sent by WhatsApp and confirmed manually.
+ */
+(function (window, document) {
   "use strict";
 
-  /* ---------- 1. Settings and data ---------- */
-  var C = window.SK_CONFIG || {};
-  var P = window.products || window.PRODUCTS || [];   // products from products.js
-  var CATS = window.CATEGORIES || [];
-  C.currency = C.currency || "USD";
-  C.whatsappNumber = C.whatsappNumber || "";
-  C.payments = C.payments || { enabled: false, checkoutEndpoint: "" };
+  /* ------------------------------------------------------------------ *
+   * Settings (read from window.STORE_CONFIG, with safe fallbacks)
+   * ------------------------------------------------------------------ */
+  var CFG = window.STORE_CONFIG || {};
+  var CFG_STORE = CFG.store || {};
+  var CFG_CURRENCY = CFG.currency || {};
+  var CFG_CONTACT = CFG.contact || {};
+  var CFG_WEBSITE = CFG.website || {};
 
-  /* ---------- 2. Small helper functions ---------- */
-  // Find one element / many elements (returns null / empty list if missing)
-  function $(sel, root) { return (root || document).querySelector(sel); }
-  function $$(sel, root) { return Array.prototype.slice.call((root || document).querySelectorAll(sel)); }
-  // Safely put HTML into an element. Does nothing if the element is missing.
-  function setHTML(sel, html) { var el = $(sel); if (el) el.innerHTML = html; return el; }
-  // Safely listen for an event on an element that may be missing.
-  function on(sel, ev, fn) { var el = $(sel); if (el) el.addEventListener(ev, fn); return el; }
-  // Format a number as money, e.g. $24.99
-  function money(n) {
-    try { return new Intl.NumberFormat("en-US", { style: "currency", currency: C.currency }).format(n); }
-    catch (e) { return "$" + Number(n).toFixed(2); }
-  }
-  // Make text safe to put inside HTML
-  function esc(s) {
-    return String(s).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-  function byId(id) { return P.find(function (p) { return p.id === id; }); }
-  function catName(id) { var c = CATS.find(function (x) { return x.id === id; }); return c ? c.name : id; }
-  function param(name) { return new URLSearchParams(location.search).get(name) || ""; }
-  function mainImage(p) { return (p.images && p.images[0]) || p.mainImage || "images/logo.svg"; }
+  var STORE_NAME = CFG_STORE.name || "SK GRIP PRO";
+  var CURRENCY = CFG_CURRENCY.code || "USD";
+  var LOCALE = CFG_CURRENCY.locale || "en-US";
+  var PHONE = CFG_CONTACT.phone || "";
+  var WHATSAPP = CFG_CONTACT.whatsapp || "";
+  var EMAIL = CFG_CONTACT.email || "";
+  var SITE_URL = CFG_WEBSITE.url || "";
 
-  /* ---------- 3. Cart (saved in this phone's browser only) ----------
-     Only product ids and quantities are saved. NO card details, ever. */
-  var KEY = "skgrippro_cart";
-  function getCart() {
-    try {
-      var list = JSON.parse(localStorage.getItem(KEY) || "[]");
-      return list.filter(function (i) { return byId(i.id) && i.qty > 0; });   // drop removed products
-    } catch (e) { return []; }
-  }
-  function saveCart(c) {
-    try { localStorage.setItem(KEY, JSON.stringify(c)); } catch (e) {}
-    updateBadge();
-  }
-  function addToCart(id, qty) {
-    var p = byId(id);
-    if (!p || !p.available) { toast("Sorry, this product is unavailable."); return; }
-    var cart = getCart(), line = cart.find(function (x) { return x.id === id; });
-    if (line) line.qty = Math.min(99, line.qty + qty); else cart.push({ id: id, qty: qty });
-    saveCart(cart);
-    toast("Added to cart");
-  }
-  function updateBadge() {   // the small number next to "Cart"
-    var n = getCart().reduce(function (sum, i) { return sum + i.qty; }, 0);
-    $$(".cart-count").forEach(function (b) { b.textContent = n; b.hidden = n === 0; });
-  }
-  function toast(msg) {      // small message that pops up at the bottom
-    var t = $("#toast"); if (!t) return;
-    t.textContent = msg; t.classList.add("show");
-    clearTimeout(toast.timer);
-    toast.timer = setTimeout(function () { t.classList.remove("show"); }, 2200);
-  }
+  var CART_KEY = "skgrippro_cart_v1";
+  var MAX_QTY = 99;
 
-  /* ---------- 4. Header, mobile menu and footer ---------- */
-  function buildLayout() {
-    var page = document.body.getAttribute("data-page");
-    var links = [["index.html", "Home", "home"], ["shop.html", "Shop All", "shop"], ["about.html", "About Us", "about"],
-                 ["contact.html", "Contact", "contact"], ["faq.html", "FAQ", "faq"]];
-    setHTML("#site-header",
-      '<header class="header"><div class="wrap bar">' +
-      '<a class="brand" href="index.html"><img src="images/logo.svg" alt="" width="34" height="34"><span>SK GRIP <b>PRO</b></span></a>' +
-      '<nav id="nav" class="nav" aria-label="Main">' +
-      links.map(function (l) { return '<a href="' + l[0] + '"' + (page === l[2] ? ' class="active"' : "") + ">" + l[1] + "</a>"; }).join("") +
-      "</nav>" +
-      '<a class="cart-link" href="cart.html" aria-label="Shopping cart">Cart <span class="cart-count" hidden>0</span></a>' +
-      '<button id="menu" class="menu" aria-label="Open menu" aria-expanded="false"><i></i><i></i><i></i></button>' +
-      "</div></header>");
-    setHTML("#site-footer",
-      '<footer class="footer"><div class="wrap fgrid">' +
-      '<div><div class="brand"><img src="images/logo.svg" alt="" width="30" height="30"><span>SK GRIP <b>PRO</b></span></div><p class="muted">' + esc(C.tagline || "") + "</p></div>" +
-      '<div><h4>Shop</h4><a href="shop.html">Shop All</a><a href="cart.html">Shopping Cart</a></div>' +
-      '<div><h4>Company</h4><a href="about.html">About Us</a><a href="contact.html">Contact Us</a><a href="faq.html">FAQ</a></div>' +
-      '<div><h4>Policies</h4><a href="shipping.html">Shipping Policy</a><a href="returns.html">Returns &amp; Refunds</a><a href="privacy.html">Privacy Policy</a><a href="terms.html">Terms &amp; Conditions</a></div>' +
-      '</div><div class="wrap copy">&copy; ' + new Date().getFullYear() + " SK GRIP PRO. All rights reserved.</div></footer>");
-    var t = document.createElement("div");
-    t.id = "toast"; t.setAttribute("role", "status"); document.body.appendChild(t);
-    // Mobile menu button: open / close the menu
-    on("#menu", "click", function () {
-      var open = $("#nav").classList.toggle("open");
-      this.classList.toggle("on", open);
-      this.setAttribute("aria-expanded", open);
-    });
-    // Close the mobile menu after tapping a link
-    $$("#nav a").forEach(function (a) {
-      a.addEventListener("click", function () { var n = $("#nav"); if (n) n.classList.remove("open"); });
-    });
-    updateBadge();
-  }
-
-  /* ---------- 5. Product card (used on home, shop and product pages) ---------- */
-  function card(p) {
-    var link = "product.html?id=" + encodeURIComponent(p.id);
-    return '<article class="card tilt reveal">' +
-      '<a class="card-img" href="' + link + '"><img src="' + esc(mainImage(p)) + '" alt="' + esc(p.name) + '" loading="lazy">' +
-      (p.sample ? '<span class="tag">Sample</span>' : "") +
-      (p.available ? "" : '<span class="tag out">Sold out</span>') + "</a>" +
-      '<div class="card-body"><small>' + esc(catName(p.category)) + "</small>" +
-      '<h3><a href="' + link + '">' + esc(p.name) + "</a></h3>" +
-      '<div class="row"><strong>' + money(p.price) + (p.sample ? ' <em class="muted">demo price</em>' : "") + "</strong>" +
-      '<button class="btn sm" data-add="' + esc(p.id) + '"' + (p.available ? "" : " disabled") + ">" + (p.available ? "Add" : "Sold out") + "</button></div></div></article>";
-  }
-
-  /* ---------- 6. HOME PAGE: categories and featured products ---------- */
-  function homePage() {
-    var featured = P.filter(function (p) { return p.featured; });
-    setHTML("#featured", featured.length ? featured.map(card).join("") : '<p class="muted">No featured products yet.</p>');
-    setHTML("#cats", CATS.map(function (c) {
-      return '<a class="cat tilt reveal" href="shop.html?cat=' + encodeURIComponent(c.id) + '"><span>' + esc(c.name) + "</span><i>&rarr;</i></a>";
-    }).join(""));
-    var hero = $("#hero-link");   // hero button goes to the first featured product
-    if (hero && featured[0]) hero.href = "product.html?id=" + encodeURIComponent(featured[0].id);
-    heroAnimation();
-  }
-
-  /* ---------- 7. SHOP PAGE: search, category filter, price sorting ---------- */
-  function shopPage() {
-    var catBox = $("#cat"), qBox = $("#q"), sortBox = $("#sort");
-    if (!$("#grid")) return;
-    if (catBox) {
-      catBox.innerHTML = '<option value="">All categories</option>' +
-        CATS.map(function (c) { return '<option value="' + esc(c.id) + '">' + esc(c.name) + "</option>"; }).join("");
-      catBox.value = param("cat");
-    }
-    if (qBox) qBox.value = param("q");
-
-    function draw() {
-      var q = qBox ? qBox.value.trim().toLowerCase() : "";
-      var cat = catBox ? catBox.value : "";
-      var sort = sortBox ? sortBox.value : "";
-      var list = P.filter(function (p) {
-        var text = (p.name + " " + p.description + " " + catName(p.category)).toLowerCase();
-        return (!cat || p.category === cat) && (!q || text.indexOf(q) > -1);
+  var PRODUCTS = [];
+  try {
+    if (Array.isArray(window.products)) {
+      PRODUCTS = window.products.filter(function (p) {
+        return p && typeof p === "object" && p.id !== undefined && p.name;
       });
-      if (sort === "low") list.sort(function (a, b) { return a.price - b.price; });
-      if (sort === "high") list.sort(function (a, b) { return b.price - a.price; });
-      if (sort === "az") list.sort(function (a, b) { return a.name.localeCompare(b.name); });
-      var count = $("#count");
-      if (count) count.textContent = list.length + (list.length === 1 ? " product" : " products");
-      setHTML("#grid", list.length ? list.map(card).join("") :
-        '<div class="empty" style="grid-column:1/-1"><h3>No products found</h3><p class="muted">Try a different search or choose "All categories".</p></div>');
-      reveal();
     }
-    [qBox, catBox, sortBox].forEach(function (el) {
-      if (el) { el.addEventListener("input", draw); el.addEventListener("change", draw); }
-    });
-    draw();
+  } catch (err) {
+    PRODUCTS = [];
   }
 
-  /* ---------- 8. WhatsApp link (number comes from js/config.js) ---------- */
-  function whatsappLink(text) {
-    var number = String(C.whatsappNumber).replace(/\D/g, "");
-    return "https://wa.me/" + number + "?text=" + encodeURIComponent(text);
+  /* ------------------------------------------------------------------ *
+   * Small helpers
+   * ------------------------------------------------------------------ */
+  function $(selector, root) {
+    return (root || document).querySelector(selector);
   }
 
-  /* ---------- 9. PRODUCT PAGE ---------- */
-  function specsHtml(p) {
-    var s = p.specifications; if (!s || !s.length) return "";
-    return '<h3 style="margin:1rem 0 .4rem">Specifications</h3><ul style="padding-left:1.2rem;color:#c4ccd8">' +
-      s.map(function (x) { return "<li><b>" + esc(x.label) + ":</b> " + esc(x.value) + "</li>"; }).join("") + "</ul>";
+  function $all(selector, root) {
+    return Array.prototype.slice.call((root || document).querySelectorAll(selector));
   }
 
-  function productPage() {
-    var box = $("#product"); if (!box) return;
-    var p = byId(param("id"));
-    if (!p) {
-      box.innerHTML = '<div class="empty"><h1>Product not found</h1><p class="muted">This product does not exist or was removed.</p><a class="btn" href="shop.html">Back to shop</a></div>';
-      return;
-    }
-    document.title = p.name + " | SK GRIP PRO";
-    var imgs = p.images && p.images.length ? p.images : [mainImage(p)];
-    box.innerHTML =
-      '<div class="pgrid"><div><div class="stage tilt"><img id="main-img" src="' + esc(imgs[0]) + '" alt="' + esc(p.name) + '"></div>' +
-      '<div class="thumbs">' + imgs.map(function (src, i) {
-        return '<button class="thumb' + (i ? "" : " on") + '" data-src="' + esc(src) + '" aria-label="View image ' + (i + 1) + '"><img src="' + esc(src) + '" alt=""></button>';
-      }).join("") + "</div></div>" +
-      '<div><small class="muted">' + esc(catName(p.category)) + "</small><h1>" + esc(p.name) + "</h1>" +
-      '<p class="price">' + money(p.price) + "</p>" +
-      (p.sample ? '<p class="notice">SAMPLE DATA: price, stock and description are demonstration placeholders until real details are added.</p>' : "") +
-      '<p class="stock ' + (p.available ? "ok" : "no") + '">' + (p.available ? "In stock" : "Currently unavailable") + "</p>" +
-      "<p>" + esc(p.description) + "</p>" + specsHtml(p) +
-      '<div class="buy"><div class="qty"><button data-d="-1" aria-label="Decrease">&minus;</button><span id="pq">1</span><button data-d="1" aria-label="Increase">+</button></div>' +
-      '<button class="btn" id="add"' + (p.available ? "" : " disabled") + ">Add to cart</button></div>" +
-      '<a class="btn ghost wide" target="_blank" rel="noopener" href="' + esc(whatsappLink("Hello SK GRIP PRO, I want to order: " + p.name)) + '">Order on WhatsApp</a></div></div>';
+  function esc(value) {
+    return String(value === null || value === undefined ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
 
-    var qty = 1;
-    box.addEventListener("click", function (e) {
-      var b = e.target.closest("button"); if (!b) return;
-      if (b.dataset.src) {   // change the big picture
-        $("#main-img").src = b.dataset.src;
-        $$(".thumb").forEach(function (t) { t.classList.toggle("on", t === b); });
+  function safe(fn) {
+    try {
+      fn();
+    } catch (err) {
+      if (window.console && console.error) {
+        console.error("[SK GRIP PRO]", err);
       }
-      if (b.dataset.d) { qty = Math.max(1, Math.min(99, qty + Number(b.dataset.d))); $("#pq").textContent = qty; }
-      if (b.id === "add") addToCart(p.id, qty);
-    });
-    var related = P.filter(function (x) { return x.category === p.category && x.id !== p.id; }).slice(0, 3);
-    if (related.length) setHTML("#related", '<h2>You may also like</h2><div class="grid">' + related.map(card).join("") + "</div>");
-    reveal();
+    }
   }
 
-  /* ---------- 10. CART PAGE ---------- */
-  function cartPage() {
-    var box = $("#cart"); if (!box) return;
+  function digitsOnly(value) {
+    return String(value || "").replace(/\D+/g, "");
+  }
 
-    function draw() {
-      var cart = getCart();
-      if (!cart.length) {
-        box.innerHTML = '<div class="empty"><h2>Your cart is empty</h2><p class="muted">Add something you like.</p><a class="btn" href="shop.html">Continue shopping</a></div>';
+  function truncate(text, max) {
+    var s = String(text || "");
+    return s.length > max ? s.slice(0, max - 1).replace(/\s+\S*$/, "") + "…" : s;
+  }
+
+  function money(amount, currency) {
+    var value = Number(amount);
+    if (!isFinite(value)) {
+      return "";
+    }
+    var code = currency || CURRENCY;
+    try {
+      return new Intl.NumberFormat(LOCALE, { style: "currency", currency: code }).format(value);
+    } catch (err) {
+      return "$" + value.toFixed(2);
+    }
+  }
+
+  function hasPrice(product) {
+    return !(product.price === null || product.price === undefined || product.price === "" || !isFinite(Number(product.price)));
+  }
+
+  function isAvailable(product) {
+    return product.available !== false;
+  }
+
+  function productUrl(product) {
+    return "product.html?id=" + encodeURIComponent(product.id);
+  }
+
+  function getProduct(id) {
+    for (var i = 0; i < PRODUCTS.length; i++) {
+      if (String(PRODUCTS[i].id) === String(id)) {
+        return PRODUCTS[i];
+      }
+    }
+    return null;
+  }
+
+  function productImages(product) {
+    var list = [];
+    if (Array.isArray(product.images)) {
+      list = product.images.filter(Boolean);
+    }
+    if (product.image && list.indexOf(product.image) === -1) {
+      list.unshift(product.image);
+    }
+    return list;
+  }
+
+  var PLACEHOLDER_IMG =
+    "data:image/svg+xml;charset=UTF-8," +
+    encodeURIComponent(
+      '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">' +
+        '<rect width="600" height="600" fill="#151515"/>' +
+        '<rect x="20" y="20" width="560" height="560" fill="none" stroke="#c9ccd1" stroke-opacity=".35"/>' +
+        '<text x="300" y="310" text-anchor="middle" font-family="Arial, sans-serif" font-size="34" letter-spacing="6" fill="#c9ccd1">SK GRIP PRO</text>' +
+        "</svg>"
+    );
+
+  function categories() {
+    var seen = {};
+    var list = [];
+    PRODUCTS.forEach(function (p) {
+      var c = p.category ? String(p.category).trim() : "";
+      if (c && !seen[c]) {
+        seen[c] = true;
+        list.push(c);
+      }
+    });
+    return list.sort();
+  }
+
+  function getQuery() {
+    try {
+      return new URLSearchParams(window.location.search);
+    } catch (err) {
+      return { get: function () { return null; } };
+    }
+  }
+
+  function currentPage() {
+    var file = (window.location.pathname.split("/").pop() || "").toLowerCase();
+    file = file.replace(/\.html?$/, "");
+    return file === "" ? "index" : file;
+  }
+
+  /* ------------------------------------------------------------------ *
+   * WhatsApp helpers
+   * ------------------------------------------------------------------ */
+  function whatsappLink(message) {
+    var number = digitsOnly(WHATSAPP);
+    if (!number) {
+      return "";
+    }
+    var base = "https://wa.me/" + number;
+    return message ? base + "?text=" + encodeURIComponent(message) : base;
+  }
+
+  function priceTextForMessage(product) {
+    if (!hasPrice(product)) {
+      return "price to be confirmed";
+    }
+    var text = "listed price " + money(product.price, product.currency);
+    if (product.priceConfirmed === false) {
+      text += " - demo price, unconfirmed";
+    }
+    return text;
+  }
+
+  function closingLine() {
+    return "Please confirm the final price, shipping details and payment options before I place my order. Thank you.";
+  }
+
+  function productOrderMessage(product, qty) {
+    return (
+      "Hello " + STORE_NAME + ", I would like to order:\n" +
+      "- " + product.name + " x" + (qty || 1) + " (" + priceTextForMessage(product) + ")\n\n" +
+      closingLine()
+    );
+  }
+
+  function cartOrderMessage(rows, totals) {
+    var lines = rows.map(function (row) {
+      return "- " + row.product.name + " x" + row.qty + " (" + priceTextForMessage(row.product) + ")";
+    });
+    var message = "Hello " + STORE_NAME + ", I would like to order:\n" + lines.join("\n");
+    if (totals.hasAnyPrice) {
+      message += "\n\nEstimated total: " + money(totals.total) + " (not final";
+      message += totals.unconfirmed ? ", includes unconfirmed prices" : "";
+      message += ")";
+    }
+    return message + "\n\n" + closingLine();
+  }
+
+  function whatsappButton(message, label, extraClass) {
+    var link = whatsappLink(message);
+    var cls = "skgp-btn skgp-btn-outline" + (extraClass ? " " + extraClass : "");
+    if (!link) {
+      return '<a class="' + cls + '" href="contact.html">Contact us</a>';
+    }
+    return (
+      '<a class="' + cls + '" href="' + esc(link) + '" target="_blank" rel="noopener noreferrer">' +
+      esc(label || "Order on WhatsApp") +
+      "</a>"
+    );
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Cart (localStorage - stores only product ids and quantities)
+   * ------------------------------------------------------------------ */
+  var memoryCart = [];
+
+  function readCart() {
+    var data = null;
+    try {
+      var raw = window.localStorage.getItem(CART_KEY);
+      data = raw ? JSON.parse(raw) : [];
+    } catch (err) {
+      data = memoryCart;
+    }
+    if (!Array.isArray(data)) {
+      return [];
+    }
+    var cleaned = [];
+    data.forEach(function (item) {
+      if (!item || item.id === undefined) {
         return;
       }
-      var subtotal = 0, hasSample = false, lines = [];
-      var rows = cart.map(function (i) {
-        var p = byId(i.id), total = p.price * i.qty;
-        subtotal += total; if (p.sample) hasSample = true;
-        lines.push("- " + p.name + " x" + i.qty + " = " + money(total));
-        return '<div class="line"><img src="' + esc(mainImage(p)) + '" alt="">' +
-          '<div class="info"><a href="product.html?id=' + encodeURIComponent(p.id) + '">' + esc(p.name) + '</a><br><small class="muted">' + money(p.price) + " each</small></div>" +
-          '<div class="qty" data-id="' + esc(p.id) + '"><button data-a="dec" aria-label="Decrease">&minus;</button><span>' + i.qty + '</span><button data-a="inc" aria-label="Increase">+</button></div>' +
-          "<strong>" + money(total) + "</strong>" +
-          '<button class="x" data-a="rm" data-id="' + esc(p.id) + '" aria-label="Remove ' + esc(p.name) + '">&times;</button></div>';
-      }).join("");
-      var message = "Hello SK GRIP PRO, I would like to place this order:\n" + lines.join("\n") +
-        "\nSubtotal: " + money(subtotal) + "\nPlease confirm availability, shipping cost and payment method.";
-      box.innerHTML = '<div class="cgrid"><div>' + rows + "</div>" +
-        '<aside class="summary"><h2>Order summary</h2><div class="row"><span>Subtotal</span><strong>' + money(subtotal) + "</strong></div>" +
-        '<p class="muted small">Shipping and taxes are confirmed when we reply to your order.</p>' +
-        (hasSample ? '<p class="notice">Demonstration prices shown. Not final.</p>' : "") +
-        '<a class="btn wide" target="_blank" rel="noopener" href="' + esc(whatsappLink(message)) + '">Order on WhatsApp</a>' +
-        '<button class="btn ghost wide" id="pay">Pay online (coming soon)</button>' +
-        '<div class="steps"><h3>How checkout works</h3><ol>' +
-        "<li>Tap <b>Order on WhatsApp</b>. Your cart is typed for you.</li><li>Press send in WhatsApp.</li>" +
-        "<li>We confirm stock, shipping and total.</li><li>We give you payment instructions.</li><li>We ship after payment is confirmed.</li></ol></div>" +
-        '<button class="link" id="clear">Clear cart</button></aside></div>';
-    }
-
-    // One click listener handles +, -, remove, clear and pay buttons
-    box.addEventListener("click", function (e) {
-      var b = e.target.closest("button"); if (!b) return;
-      var cart = getCart();
-      var holder = b.closest(".qty");
-      var id = b.dataset.id || (holder && holder.dataset.id);
-      var line = cart.find(function (x) { return x.id === id; });
-      if (b.id === "pay") { startOnlinePayment(cart); return; }
-      if (b.dataset.a === "inc" && line) line.qty = Math.min(99, line.qty + 1);
-      if (b.dataset.a === "dec" && line) line.qty -= 1;                       // 0 removes the line
-      if (b.dataset.a === "rm") cart = cart.filter(function (x) { return x.id !== id; });
-      if (b.id === "clear") cart = [];
-      saveCart(cart.filter(function (x) { return x.qty > 0; }));
-      draw();
+      var qty = parseInt(item.qty, 10);
+      if (!isFinite(qty) || qty < 1) {
+        return;
+      }
+      cleaned.push({ id: String(item.id), qty: Math.min(qty, MAX_QTY) });
     });
-    draw();
+    return cleaned;
   }
 
-  /* ---------- 11. Future Safepay hook (NOT ACTIVE) ----------
-     Payments do NOT work yet. This only runs after you set enabled:true and a
-     checkoutEndpoint in config.js AND build a secure backend. Only product ids and
-     quantities are sent; your server must work out prices. The customer pays on
-     Safepay's own page, so this website never sees card details. */
-  function startOnlinePayment(cart) {
-    var pay = C.payments;
-    if (!pay.enabled || !pay.checkoutEndpoint) {
-      toast("Online payment is not active yet. Please order on WhatsApp.");
+  function writeCart(items) {
+    memoryCart = items;
+    try {
+      window.localStorage.setItem(CART_KEY, JSON.stringify(items));
+    } catch (err) {
+      /* Storage unavailable (private mode, blocked). Cart lives in memory only. */
+    }
+  }
+
+  function cartRows() {
+    var rows = [];
+    var cleaned = [];
+    readCart().forEach(function (item) {
+      var product = getProduct(item.id);
+      if (product) {
+        rows.push({ product: product, qty: item.qty });
+        cleaned.push(item);
+      }
+    });
+    return rows;
+  }
+
+  function cartCount() {
+    return readCart().reduce(function (sum, item) {
+      return sum + item.qty;
+    }, 0);
+  }
+
+  function cartTotals(rows) {
+    var total = 0;
+    var unconfirmed = false;
+    var hasAnyPrice = false;
+    var missingPrice = false;
+    rows.forEach(function (row) {
+      if (!isAvailable(row.product)) {
+        return;
+      }
+      if (hasPrice(row.product)) {
+        total += Number(row.product.price) * row.qty;
+        hasAnyPrice = true;
+        if (row.product.priceConfirmed === false) {
+          unconfirmed = true;
+        }
+      } else {
+        missingPrice = true;
+      }
+    });
+    return { total: total, unconfirmed: unconfirmed, hasAnyPrice: hasAnyPrice, missingPrice: missingPrice };
+  }
+
+  function addToCart(id, qty) {
+    var product = getProduct(id);
+    if (!product || !isAvailable(product)) {
+      showToast("This product is currently unavailable.");
       return;
     }
-    fetch(pay.checkoutEndpoint, {
-      method: "POST", headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ items: cart })
-    })
-      .then(function (r) { return r.json(); })
-      .then(function (d) { if (d && d.checkoutUrl) location.href = d.checkoutUrl; else toast("Payment could not start."); })
-      .catch(function () { toast("Payment could not start."); });
+    var items = readCart();
+    var found = false;
+    items.forEach(function (item) {
+      if (item.id === String(id)) {
+        item.qty = Math.min(item.qty + (qty || 1), MAX_QTY);
+        found = true;
+      }
+    });
+    if (!found) {
+      items.push({ id: String(id), qty: Math.min(qty || 1, MAX_QTY) });
+    }
+    writeCart(items);
+    refreshCartUI();
+    showToast(product.name + " added to your cart.");
   }
 
-  /* ---------- 12. CONTACT and FAQ pages ---------- */
-  function contactPage() {
-    var wa = $("#wa-contact"); if (wa) wa.href = whatsappLink("Hello SK GRIP PRO, I have a question.");
-    var mail = $("#mail"); if (mail) { mail.textContent = C.email || ""; mail.href = "mailto:" + (C.email || ""); }
-    on("#cform", "submit", function (e) {   // opens the visitor's email app
-      e.preventDefault();
-      var f = e.target;
-      var body = "Name: " + f.name.value + "\nEmail: " + f.email.value + "\n\n" + f.message.value;
-      location.href = "mailto:" + (C.email || "") + "?subject=" + encodeURIComponent("Message from " + f.name.value) + "&body=" + encodeURIComponent(body);
-    });
-  }
-  function faqPage() {
-    $$(".faq button").forEach(function (b) {
-      b.addEventListener("click", function () {
-        var open = b.parentElement.classList.toggle("open");
-        b.setAttribute("aria-expanded", open);
+  function changeQty(id, delta) {
+    var items = readCart();
+    items = items
+      .map(function (item) {
+        if (item.id === String(id)) {
+          item.qty = Math.min(item.qty + delta, MAX_QTY);
+        }
+        return item;
+      })
+      .filter(function (item) {
+        return item.qty > 0;
       });
+    writeCart(items);
+    refreshCartUI();
+  }
+
+  function removeFromCart(id) {
+    writeCart(
+      readCart().filter(function (item) {
+        return item.id !== String(id);
+      })
+    );
+    refreshCartUI();
+  }
+
+  function clearCart() {
+    writeCart([]);
+    refreshCartUI();
+  }
+
+  function refreshCartUI() {
+    updateCartBadge();
+    safe(renderCart);
+  }
+
+  function updateCartBadge() {
+    var count = cartCount();
+    $all("[data-cart-count]").forEach(function (el) {
+      el.textContent = String(count);
+      el.hidden = count === 0;
     });
   }
 
-  /* ---------- 13. Effects: scroll fade-in and 3D card tilt ---------- */
-  var observer = "IntersectionObserver" in window ? new IntersectionObserver(function (entries) {
-    entries.forEach(function (en) { if (en.isIntersecting) { en.target.classList.add("in"); observer.unobserve(en.target); } });
-  }, { threshold: 0.1 }) : null;
-  function reveal() {
-    $$(".reveal:not(.in)").forEach(function (el) { if (observer) observer.observe(el); else el.classList.add("in"); });
-  }
-  document.addEventListener("pointermove", function (e) {   // tilt only with a mouse
-    if (e.pointerType !== "mouse") return;
-    var t = e.target.closest ? e.target.closest(".tilt") : null; if (!t) return;
-    var r = t.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - 0.5, y = (e.clientY - r.top) / r.height - 0.5;
-    t.style.transform = "perspective(800px) rotateY(" + x * 10 + "deg) rotateX(" + (-y * 10) + "deg) translateY(-6px)";
-  });
-  document.addEventListener("pointerout", function (e) {
-    var t = e.target.closest ? e.target.closest(".tilt") : null;
-    if (t && !t.contains(e.relatedTarget)) t.style.transform = "";
-  });
+  /* ------------------------------------------------------------------ *
+   * Toast message
+   * ------------------------------------------------------------------ */
+  var toastTimer = null;
 
-  /* ---------- 14. Lightweight Three.js 3D hero (home page only) ----------
-     If Three.js or WebGL is not available, the page still works without it. */
-  function heroAnimation() {
-    var canvas = $("#hero3d");
-    if (!canvas || !window.THREE) return;
-    var T = window.THREE, renderer;
-    try { renderer = new T.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true }); } catch (e) { return; }
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-    var scene = new T.Scene();
-    var camera = new T.PerspectiveCamera(40, 1, 0.1, 100); camera.position.set(0, 0, 7.5);
-    var group = new T.Group(); scene.add(group);
-    var silver = new T.MeshStandardMaterial({ color: 0xc9d1d9, metalness: 0.9, roughnes
+  function showToast(message) {
+    var toast = $(".skgp-toast");
+    if (!toast) {
+      toast = document.createElement("div");
+      toast.className = "skgp-toast";
+      toast.setAttribute("role", "status");
+      toast.setAttribute("aria-live", "polite");
+      document.body.appendChild(toast);
+    }
+    toast.textContent = message;
+    toast.classList.add("is-visible");
+    window.clearTimeout(toastTimer);
+    toastTimer = window.setTimeout(function () {
+      toast.classList.remove("is-visible");
+    }, 2600);
+  }
+
+  /* ------------------------------------------------------------------ *
+   * Styles for generated components (css/style.css can override these)
+   * ------------------------------------------------------------------ */
+  function injectStyles() {
+    if ($("#skgp-app-styles")) {
+      return;
+    }
+    var css =
+      ":root{--skgp-black:#0a0a0a;--skgp-charcoal:#151515;--skgp-graphite:#1f1f21;--skgp-silver:#c9ccd1;--skgp-silver-soft:#9ea2a9;--skgp-white:#fff;--skgp-line:rgba(201,204,209,.18)}" +
+      ".skgp-header,.skgp-footer,.skgp-card,.skgp-cart,.skgp-detail,.skgp-empty{font-family:'Helvetica Neue',Arial,sans-serif;box-sizing:border-box}" +
+      ".skgp-header *,.skgp-footer *,.skgp-card *,.skgp-cart *,.skgp-detail *,.skgp-empty *{box-sizing:border-box}" +
+      ".skgp-header{position:sticky;top:0;z-index:1000;background:rgba(10,10,10,.96);border-bottom:1px solid var(--skgp-line);backdrop-filter:blur(8px)}" +
+      ".skgp-header-inner{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:16px}" +
+      ".skgp-logo{color:var(--skgp-white);font-weight:800;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;font-size:1.05rem;white-space:nowrap}" +
+      ".skgp-nav{display:flex;align-items:center;gap:6px}" +
+      ".skgp-nav a{color:var(--skgp-silver);text-decoration:none;padding:8px 12px;border-radius:999px;font-size:.88rem;letter-spacing:.06em;text-transform:uppercase;transition:color .2s,background .2s}" +
+      ".skgp-nav a:hover,.skgp-nav a:focus-visible,.skgp-nav a[aria-current='page']{color:var(--skgp-white);background:rgba(201,204,209,.12)}" +
+      ".skgp-header-actions{display:flex;align-items:center;gap:10px}" +
+      ".skgp-cart-link{position:relative;display:inline-flex;align-items:center;gap:8px;color:var(--skgp-white);text-decoration:none;padding:8px 14px;border:1px solid var(--skgp-silver);border-radius:999px;font-size:.85rem;letter-spacing:.06em;text-transform:uppercase}" +
+      ".skgp-cart-link:hover,.skgp-cart-link:focus-visible{background:rgba(201,204,209,.12)}" +
+      ".skgp-badge{display:inline-flex;align-items:center;justify-content:center;min-width:22px;height:22px;padding:0 6px;border-radius:999px;background:var(--skgp-white);color:var(--skgp-black);font-size:.75rem;font-weight:700}" +
+      ".skgp-badge[hidden]{display:none}" +
+      ".skgp-menu-btn{display:none;width:44px;height:44px;border:1px solid var(--skgp-silver);border-radius:10px;background:transparent;color:var(--skgp-white);cursor:pointer;padding:0;align-items:center;justify-content:center;flex-direction:column;gap:5px}" +
+      ".skgp-menu-btn span{display:block;width:20px;height:2px;background:currentColor;transition:transform .2s,opacity .2s}" +
+      ".skgp-menu-btn[aria-expanded='true'] span:nth-child(1){transform:translateY(7px) rotate(45deg)}" +
+      ".skgp-menu-btn[aria-expanded='true'] span:nth-child(2){opacity:0}" +
+      ".skgp-menu-btn[aria-expanded='true'] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}" +
+      "@media (max-width:860px){.skgp-menu-btn{display:inline-flex}.skgp-nav{display:none;position:absolute;left:0;right:0;top:100%;flex-direction:column;align-items:stretch;gap:0;padding:10px 20px 18px;background:var(--skgp-black);border-bottom:1px solid var(--skgp-line)}.skgp-nav.is-open{display:flex}.skgp-nav a{padding:14px 12px;border-radius:8px}}" +
+      ".skgp-footer{background:#080808;color:var(--skgp-silver);border-top:1px solid var(--skgp-line);margin-top:48px}" +
+      ".skgp-footer-inner{max-width:1200px;margin:0 auto;padding:44px 20px 24px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:32px}" +
+      ".skgp-footer h4{margin:0 0 14px;color:var(--skgp-white);font-size:.85rem;letter-spacing:.2em;text-transform:uppercase}" +
+      ".skgp-footer p{margin:0 0 10px;line-height:1.7;font-size:.93rem}" +
+      ".skgp-footer ul{list-style:none;margin:0;padding:0}.skgp-footer li{margin:0 0 8px}" +
+      ".skgp-footer a{color:var(--skgp-silver);text-decoration:none;overflow-wrap:anywhere}.skgp-footer a:hover,.skgp-footer a:focus-visible{color:var(--skgp-white);text-decoration:underline}" +
+      ".skgp-footer-bottom{max-width:1200px;margin:0 auto;padding:18px 20px 28px;border-top:1px solid var(--skgp-line);font-size:.82rem;color:var(--skgp-silver-soft);line-height:1.6}" +
+      ".skgp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}" +
+      ".skgp-card{display:flex;flex-direction:column;border:1px solid var(--skgp-line);border-radius:14px;background:linear-gradient(160deg,var(--skgp-graphite),var(--skgp-charcoal));overflow:hidden;color:var(--skgp-silver);transition:border-color .25s,transform .25s}" +
+      ".skgp-card:hover{border-color:var(--skgp-silver);transform:translateY(-2px)}" +
+      ".skgp-card-media{display:block;aspect-ratio:1/1;background:#101010;overflow:hidden}" +
+      ".skgp-card-media img{width:100%;height:100%;object-fit:cover;display:block}" +
+      ".skgp-card-body{display:flex;flex-direction:column;gap:10px;padding:18px;flex:1}" +
+      ".skgp-card h3{margin:0;font-size:1.05rem;line-height:1.35}.skgp-card h3 a{color:var(--skgp-white);text-decoration:none}" +
+      ".skgp-tag{align-self:flex-start;font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;color:var(--skgp-silver-soft)}" +
+      ".skgp-desc{margin:0;font-size:.92rem;line-height:1.6;color:var(--skgp-silver)}" +
+      ".skgp-price{display:flex;flex-direction:column;gap:2px;margin-top:auto}" +
+      ".skgp-price-main{color:var(--skgp-white);font-size:1.2rem;font-weight:700}" +
+      ".skgp-price-note{font-size:.76rem;color:var(--skgp-silver-soft)}" +
+      ".skgp-actions{display:flex;flex-wrap:wrap;gap:10px;margin-top:6px}" +
+      ".skgp-btn{display:inline-flex;align-items:center;justify-content:center;padding:11px 20px;border-radius:999px;border:1px solid transparent;font-size:.8rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;text-decoration:none;cursor:pointer;font-family:inherit;transition:opacity .2s,transform .2s,background .2s}" +
+      ".skgp-btn:hover,.skgp-btn:focus-visible{opacity:.88;transform:translateY(-1px)}" +
+      ".skgp-btn-primary{background:linear-gradient(180deg,#fff,#b9bcc2);color:var(--skgp-black)}" +
+      ".skgp-btn-outline{background:transparent;color:var(--skgp-white);border-color:var(--skgp-silver)}" +
+      ".skgp-btn[disabled]{opacity:.45;cursor:not-allowed;transform:none}" +
+      ".skgp-unavailable{display:inline-block;padding:6px 12px;border:1px solid var(--skgp-line);border-radius:999px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--skgp-silver-soft)}" +
+      ".skgp-chips{display:flex;flex-wrap:wrap;gap:10px}" +
+      ".skgp-chip{display:inline-block;padding:9px 18px;border:1px solid var(--skgp-line);border-radius:999px;background:transparent;color:var(--skgp-silver);font-size:.82rem;letter-spacing:.06em;text-decoration:none;cursor:pointer;font-family:inherit}" +
+      ".skgp-chip:hover,.skgp-chip:focus-visible,.skgp-chip.is-active{border-color:var(--skgp-silver);color:var(--skgp-white);background:rgba(201,204,209,.1)}" +
+      ".skgp-empty{padding:36px 22px;text-align:center;border:1px dashed var(--skgp-silver-soft);border-radius:14px;color:var(--skgp-silver);background:var(--skgp-charcoal);line-height:1.7}" +
+      ".skgp
