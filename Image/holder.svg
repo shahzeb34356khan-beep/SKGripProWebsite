@@ -1,13 +1,11 @@
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-labelledby="standTitle standDesc">
-  <title id="standTitle">Smartphone on a premium adjustable stand</title>
-  <desc id="standDesc">A smartphone held upright by a sleek black and silver adjustable stand with a round base, hinged neck and cradle, on a luxury dark background.</desc>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="600" height="600" viewBox="0 0 600 600">
+  <title>Premium smartphone accessory collection</title>
+  <desc>A black and silver collection showing a magnetic phone ring, a compact phone stand and a small mobile accessory case on a luxury dark background.</desc>
 
   <defs>
-    <!-- Backdrop -->
-    <radialGradient id="bg" cx="0.5" cy="0.4" r="0.85">
-      <stop offset="0" stop-color="#2b2b30"/>
-      <stop offset="0.5" stop-color="#101012"/>
+    <radialGradient id="bg" cx="0.5" cy="0.38" r="0.85">
+      <stop offset="0" stop-color="#2d2d32"/>
+      <stop offset="0.5" stop-color="#111113"/>
       <stop offset="1" stop-color="#020202"/>
     </radialGradient>
 
@@ -16,7 +14,18 @@
       <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
     </linearGradient>
 
-    <!-- Silver metallic -->
+    <linearGradient id="floor" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#1a1a1d"/>
+      <stop offset="0.35" stop-color="#101012"/>
+      <stop offset="1" stop-color="#040405"/>
+    </linearGradient>
+
+    <radialGradient id="shadowG" cx="0.5" cy="0.5" r="0.5">
+      <stop offset="0" stop-color="#000000" stop-opacity="0.95"/>
+      <stop offset="0.6" stop-color="#000000" stop-opacity="0.6"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+
     <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#ffffff"/>
       <stop offset="0.25" stop-color="#b9bcc2"/>
@@ -33,22 +42,46 @@
       <stop offset="1" stop-color="#c9ccd1" stop-opacity="0"/>
     </linearGradient>
 
-    <!-- Black aluminum (horizontal shading for cylinders) -->
+    <linearGradient id="edgeLight" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+      <stop offset="0.35" stop-color="#ffffff" stop-opacity="0.12"/>
+      <stop offset="0.65" stop-color="#ffffff" stop-opacity="0"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0.35"/>
+    </linearGradient>
+
     <linearGradient id="cylH" x1="0" y1="0" x2="1" y2="0">
       <stop offset="0" stop-color="#050506"/>
-      <stop offset="0.12" stop-color="#303036"/>
-      <stop offset="0.3" stop-color="#111113"/>
+      <stop offset="0.12" stop-color="#2e2e34"/>
+      <stop offset="0.3" stop-color="#101012"/>
       <stop offset="0.55" stop-color="#08080a"/>
-      <stop offset="0.82" stop-color="#27272c"/>
+      <stop offset="0.82" stop-color="#26262b"/>
       <stop offset="1" stop-color="#040405"/>
     </linearGradient>
 
-    <!-- Black aluminum (vertical sheen) -->
     <linearGradient id="bodyV" x1="0" y1="0" x2="0" y2="1">
       <stop offset="0" stop-color="#55555c"/>
-      <stop offset="0.15" stop-color="#26262a"/>
+      <stop offset="0.15" stop-color="#27272b"/>
       <stop offset="0.55" stop-color="#09090b"/>
       <stop offset="1" stop-color="#2a2a2f"/>
+    </linearGradient>
+
+    <linearGradient id="topBody" x1="0.1" y1="0" x2="0.9" y2="1">
+      <stop offset="0" stop-color="#4e4e55"/>
+      <stop offset="0.25" stop-color="#1c1c1f"/>
+      <stop offset="0.55" stop-color="#09090a"/>
+      <stop offset="0.8" stop-color="#232327"/>
+      <stop offset="1" stop-color="#3c3c42"/>
+    </linearGradient>
+
+    <linearGradient id="panelFace" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#34343a"/>
+      <stop offset="0.4" stop-color="#151518"/>
+      <stop offset="1" stop-color="#060607"/>
+    </linearGradient>
+
+    <linearGradient id="panelEdge" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#8a8e95"/>
+      <stop offset="1" stop-color="#2c2d31"/>
     </linearGradient>
 
     <radialGradient id="baseTop" cx="0.35" cy="0.3" r="0.95">
@@ -57,133 +90,121 @@
       <stop offset="1" stop-color="#060607"/>
     </radialGradient>
 
-    <radialGradient id="barrel" cx="0.35" cy="0.3" r="0.9">
-      <stop offset="0" stop-color="#57575e"/>
-      <stop offset="0.5" stop-color="#1b1b1e"/>
+    <linearGradient id="hingeBar" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.35" stop-color="#9ea2a9"/>
+      <stop offset="0.6" stop-color="#4a4d53"/>
+      <stop offset="1" stop-color="#c9ccd1"/>
+    </linearGradient>
+
+    <radialGradient id="caseBody" cx="0.3" cy="0.2" r="1">
+      <stop offset="0" stop-color="#3b3b41"/>
+      <stop offset="0.45" stop-color="#151518"/>
       <stop offset="1" stop-color="#060607"/>
     </radialGradient>
 
-    <!-- Phone body and screen -->
-    <linearGradient id="phoneFrame" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#4b4b52"/>
-      <stop offset="0.3" stop-color="#17171a"/>
-      <stop offset="0.7" stop-color="#0a0a0c"/>
-      <stop offset="1" stop-color="#3a3a40"/>
+    <linearGradient id="holeGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#232327"/>
+      <stop offset="0.5" stop-color="#0c0c0e"/>
+      <stop offset="1" stop-color="#030304"/>
     </linearGradient>
-
-    <linearGradient id="screenBase" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#17181d"/>
-      <stop offset="0.5" stop-color="#0a0b0e"/>
-      <stop offset="1" stop-color="#121318"/>
-    </linearGradient>
-
-    <radialGradient id="screenGlow" cx="0.5" cy="0.6" r="0.7">
-      <stop offset="0" stop-color="#c9ccd1" stop-opacity="0.2"/>
-      <stop offset="0.6" stop-color="#c9ccd1" stop-opacity="0.04"/>
-      <stop offset="1" stop-color="#c9ccd1" stop-opacity="0"/>
-    </radialGradient>
-
-    <linearGradient id="glare" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.16"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
-
-    <filter id="blurLg" x="-30%" y="-100%" width="160%" height="300%">
-      <feGaussianBlur stdDeviation="20"/>
-    </filter>
-    <filter id="blurSm" x="-20%" y="-30%" width="140%" height="160%">
-      <feGaussianBlur stdDeviation="3"/>
-    </filter>
-    <filter id="phoneShadow" x="-30%" y="-10%" width="160%" height="130%">
-      <feGaussianBlur stdDeviation="14"/>
-    </filter>
-
-    <clipPath id="screenClip">
-      <rect x="287" y="102" width="226" height="476" rx="34"/>
-    </clipPath>
   </defs>
 
-  <!-- Background -->
-  <rect width="800" height="800" fill="url(#bg)"/>
-  <polygon points="300,0 500,0 700,700 100,700" fill="url(#beam)"/>
+  <g transform="scale(0.75)">
 
-  <!-- Floor line, reflection glow and shadows -->
-  <rect x="80" y="702" width="640" height="1.2" fill="url(#silverLine)" opacity="0.3"/>
-  <ellipse cx="400" cy="706" rx="250" ry="22" fill="#000000" opacity="0.95" filter="url(#blurLg)"/>
-  <ellipse cx="400" cy="696" rx="190" ry="9" fill="#000000" opacity="0.9" filter="url(#blurSm)"/>
+    <!-- Background -->
+    <rect x="0" y="0" width="800" height="800" fill="url(#bg)"/>
+    <polygon points="300,0 500,0 760,640 40,640" fill="url(#beam)"/>
+    <ellipse cx="480" cy="400" rx="260" ry="220" fill="#ffffff" fill-opacity="0.025"/>
 
-  <!-- ========== Round base ========== -->
-  <path d="M230 666 V686 A170 24 0 0 0 570 686 V666 Z" fill="url(#cylH)"/>
-  <path d="M231 686 A169 23 0 0 0 569 686" fill="none" stroke="url(#silver)" stroke-width="1.6" opacity="0.6"/>
-  <ellipse cx="400" cy="666" rx="170" ry="24" fill="url(#baseTop)"/>
-  <ellipse cx="400" cy="666" rx="169" ry="23" fill="none" stroke="url(#silver)" stroke-width="2.4"/>
-  <ellipse cx="400" cy="666" rx="150" ry="19" fill="none" stroke="#000000" stroke-width="3" opacity="0.75"/>
-  <ellipse cx="400" cy="666" rx="146" ry="18" fill="none" stroke="#ffffff" stroke-opacity="0.07" stroke-width="1"/>
-  <path d="M262 656 A150 20 0 0 1 340 646" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity="0.5"/>
+    <!-- Floor -->
+    <rect x="0" y="470" width="800" height="330" fill="url(#floor)"/>
+    <rect x="0" y="470" width="800" height="1.4" fill="url(#silverLine)" fill-opacity="0.3"/>
 
-  <!-- ========== Smartphone ========== -->
-  <!-- Phone drop shadow -->
-  <rect x="284" y="104" width="240" height="500" rx="44" fill="#000000" opacity="0.75" filter="url(#phoneShadow)"/>
+    <g transform="translate(0 -40)">
 
-  <!-- Side buttons -->
-  <rect x="524" y="214" width="5" height="62" rx="2.5" fill="url(#bodyV)" stroke="url(#silver)" stroke-width="0.8"/>
-  <rect x="271" y="190" width="5" height="40" rx="2.5" fill="url(#bodyV)" stroke="url(#silver)" stroke-width="0.8"/>
-  <rect x="271" y="244" width="5" height="40" rx="2.5" fill="url(#bodyV)" stroke="url(#silver)" stroke-width="0.8"/>
+      <!-- ============ Compact phone stand ============ -->
+      <ellipse cx="490" cy="556" rx="215" ry="42" fill="url(#shadowG)"/>
+      <ellipse cx="482" cy="548" rx="165" ry="16" fill="url(#shadowG)"/>
 
-  <!-- Phone frame -->
-  <rect x="274" y="90" width="252" height="504" rx="46" fill="url(#phoneFrame)"/>
-  <rect x="274.8" y="90.8" width="250.4" height="502.4" rx="45.4" fill="none" stroke="url(#silver)" stroke-width="2"/>
-  <rect x="279" y="95" width="242" height="494" rx="42" fill="none" stroke="#000000" stroke-width="3" opacity="0.8"/>
+      <!-- base front face -->
+      <path d="M360 545 L600 545 L600 561 Q600 566 595 566 L365 566 Q360 566 360 561 Z" fill="url(#cylH)"/>
+      <rect x="362" y="560.5" width="236" height="1.2" fill="#9ea2a9" fill-opacity="0.5"/>
+      <!-- base top face -->
+      <path d="M400 500 L560 500 L600 545 L360 545 Z" fill="url(#baseTop)" stroke="#c9ccd1" stroke-width="2" stroke-linejoin="round"/>
+      <path d="M410 509 L552 509 L584 538 L376 538 Z" fill="none" stroke="#000000" stroke-width="2.6" stroke-opacity="0.7" stroke-linejoin="round"/>
+      <path d="M404 504 L472 504" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-opacity="0.45"/>
 
-  <!-- Screen -->
-  <rect x="287" y="102" width="226" height="476" rx="34" fill="url(#screenBase)"/>
-  <g clip-path="url(#screenClip)">
-    <rect x="287" y="102" width="226" height="476" fill="url(#screenGlow)"/>
-    <!-- Abstract silver arcs (decorative wallpaper) -->
-    <g fill="none" stroke="#c9ccd1" stroke-linecap="round">
-      <circle cx="400" cy="360" r="120" stroke-opacity="0.12" stroke-width="1.5"/>
-      <circle cx="400" cy="360" r="86" stroke-opacity="0.16" stroke-width="1.5"/>
-      <circle cx="400" cy="360" r="52" stroke-opacity="0.22" stroke-width="2"/>
-      <circle cx="400" cy="360" r="20" stroke-opacity="0.3" stroke-width="2"/>
+      <!-- back panel (side edge) -->
+      <path d="M555 500 L570 497 L540 322 L528 322 Z" fill="url(#panelEdge)"/>
+      <!-- back panel (front face) -->
+      <path d="M405 500 L555 500 L528 322 L432 322 Z" fill="url(#panelFace)" stroke="#c9ccd1" stroke-width="2" stroke-linejoin="round"/>
+      <g fill="none" stroke="#ffffff" stroke-opacity="0.04" stroke-width="1">
+        <path d="M418 480 L440 340"/>
+        <path d="M440 480 L458 340"/>
+        <path d="M462 480 L476 340"/>
+        <path d="M484 480 L494 340"/>
+        <path d="M506 480 L512 340"/>
+      </g>
+      <rect x="440" y="325" width="80" height="2.4" rx="1.2" fill="url(#silverLine)"/>
+      <path d="M437 340 L418 478" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-opacity="0.25"/>
+      <path d="M432 322 L480 322 L452 500 L405 500 Z" fill="#ffffff" fill-opacity="0.04"/>
+
+      <!-- hinge bar -->
+      <rect x="404" y="492" width="152" height="16" rx="8" fill="url(#hingeBar)"/>
+      <rect x="404" y="492" width="152" height="16" rx="8" fill="none" stroke="#000000" stroke-opacity="0.35" stroke-width="1"/>
+      <rect x="416" y="494.5" width="128" height="2.2" rx="1.1" fill="#ffffff" fill-opacity="0.7"/>
+
+      <!-- cradle lip -->
+      <path d="M420 524 L540 524 L552 536 L408 536 Z" fill="url(#bodyV)" stroke="#c9ccd1" stroke-width="1.4" stroke-linejoin="round"/>
+      <path d="M408 536 L552 536 L552 543 L408 543 Z" fill="url(#cylH)"/>
+      <rect x="424" y="526" width="96" height="1.6" rx="0.8" fill="url(#silverLine)" fill-opacity="0.85"/>
+
+      <!-- ============ Magnetic phone ring ============ -->
+      <ellipse cx="242" cy="650" rx="180" ry="36" fill="url(#shadowG)"/>
+      <ellipse cx="236" cy="641" rx="145" ry="13" fill="url(#shadowG)"/>
+
+      <!-- side wall -->
+      <path d="M100 590 V612 A130 52 0 0 0 360 612 V590 Z" fill="url(#cylH)"/>
+      <path d="M101 612 A129 51 0 0 0 359 612" fill="none" stroke="#c9ccd1" stroke-width="1.6" stroke-opacity="0.6"/>
+      <path d="M118 636 A118 46 0 0 0 190 656" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.3"/>
+
+      <!-- top face -->
+      <ellipse cx="230" cy="590" rx="130" ry="52" fill="url(#topBody)"/>
+      <ellipse cx="230" cy="590" rx="129" ry="51" fill="none" stroke="url(#silver)" stroke-width="2.6"/>
+      <ellipse cx="230" cy="590" rx="125" ry="49" fill="none" stroke="url(#edgeLight)" stroke-width="1.8" stroke-opacity="0.9"/>
+      <ellipse cx="230" cy="590" rx="108" ry="43" fill="none" stroke="#000000" stroke-width="3" stroke-opacity="0.7"/>
+      <ellipse cx="230" cy="590" rx="104" ry="41" fill="none" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+      <ellipse cx="230" cy="590" rx="82" ry="33" fill="none" stroke="#ffffff" stroke-opacity="0.05" stroke-width="1"/>
+
+      <!-- center opening -->
+      <ellipse cx="230" cy="590" rx="64" ry="26" fill="#000000"/>
+      <ellipse cx="230" cy="591" rx="62" ry="25" fill="url(#holeGrad)"/>
+      <ellipse cx="230" cy="590" rx="62" ry="25" fill="none" stroke="url(#silver)" stroke-width="1.8"/>
+      <path d="M176 594 A56 20 0 0 0 284 594" fill="none" stroke="#000000" stroke-width="3" stroke-opacity="0.6"/>
+
+      <!-- ring glints -->
+      <path d="M122 570 A130 52 0 0 1 176 548" fill="none" stroke="#ffffff" stroke-width="2.6" stroke-linecap="round" stroke-opacity="0.6"/>
+      <path d="M196 542 A116 46 0 0 1 270 540" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.4"/>
+
+      <!-- ============ Small accessory case ============ -->
+      <ellipse cx="652" cy="673" rx="115" ry="26" fill="url(#shadowG)"/>
+      <ellipse cx="650" cy="666" rx="82" ry="10" fill="url(#shadowG)"/>
+
+      <!-- top face -->
+      <path d="M610 590 Q610 582 622 582 L688 582 Q700 582 700 590 L706 604 L596 604 Z" fill="url(#baseTop)" stroke="#c9ccd1" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M626 586 L684 586" fill="none" stroke="#ffffff" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.5"/>
+
+      <!-- front body -->
+      <rect x="596" y="600" width="110" height="62" rx="24" fill="url(#caseBody)"/>
+      <rect x="596.8" y="600.8" width="108.4" height="60.4" rx="23.4" fill="none" stroke="url(#silver)" stroke-width="1.8" stroke-opacity="0.85"/>
+      <path d="M598 624 Q651 630 704 624" fill="none" stroke="#000000" stroke-width="3" stroke-opacity="0.85"/>
+      <path d="M598 626 Q651 632 704 626" fill="none" stroke="#c9ccd1" stroke-width="1" stroke-opacity="0.5"/>
+      <circle cx="651" cy="646" r="6" fill="#050506" stroke="#c9ccd1" stroke-width="1.6"/>
+      <circle cx="651" cy="646" r="2" fill="#c9ccd1" fill-opacity="0.35"/>
+      <path d="M610 614 A24 24 0 0 1 626 603" fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" stroke-opacity="0.55"/>
+      <path d="M692 654 A24 24 0 0 1 678 661" fill="none" stroke="#c9ccd1" stroke-width="1.8" stroke-linecap="round" stroke-opacity="0.35"/>
+
     </g>
-    <!-- Diagonal glare -->
-    <polygon points="287,102 420,102 287,300" fill="url(#glare)"/>
-    <polygon points="513,578 513,430 410,578" fill="url(#glare)" opacity="0.5"/>
   </g>
-  <!-- Camera cutout -->
-  <circle cx="400" cy="122" r="7" fill="#000000" stroke="#2a2a2f" stroke-width="1.6"/>
-  <circle cx="398" cy="120" r="2" fill="#ffffff" opacity="0.35"/>
-  <!-- Bottom home indicator (plain bar, no text) -->
-  <rect x="368" y="560" width="64" height="4" rx="2" fill="#c9ccd1" opacity="0.4"/>
-
-  <!-- Frame glints -->
-  <path d="M290 124 A46 46 0 0 1 330 92" fill="none" stroke="#ffffff" stroke-width="2.4" stroke-linecap="round" opacity="0.6"/>
-  <path d="M510 92 A46 46 0 0 1 524 126" fill="none" stroke="#ffffff" stroke-width="1.6" stroke-linecap="round" opacity="0.3"/>
-
-  <!-- ========== Adjustable neck ========== -->
-  <rect x="382" y="604" width="36" height="58" rx="8" fill="url(#cylH)"/>
-  <rect x="382.6" y="604.6" width="34.8" height="56.8" rx="7.4" fill="none" stroke="url(#silver)" stroke-width="1" opacity="0.5"/>
-  <rect x="391" y="610" width="3" height="46" rx="1.5" fill="#ffffff" opacity="0.25"/>
-  <!-- Collar where neck meets base -->
-  <ellipse cx="400" cy="662" rx="34" ry="9" fill="url(#baseTop)" stroke="url(#silver)" stroke-width="1.6"/>
-
-  <!-- Hinge joint -->
-  <circle cx="402" cy="634" r="26" fill="#000000" opacity="0.6" filter="url(#blurSm)"/>
-  <circle cx="400" cy="632" r="25" fill="url(#barrel)"/>
-  <circle cx="400" cy="632" r="25" fill="none" stroke="url(#silver)" stroke-width="2.6"/>
-  <circle cx="400" cy="632" r="18" fill="none" stroke="#000000" stroke-width="2.4" opacity="0.85"/>
-  <circle cx="400" cy="632" r="14" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
-  <circle cx="400" cy="632" r="7" fill="#050506" stroke="url(#silver)" stroke-width="1.6"/>
-  <path d="M383 620 A20 20 0 0 1 396 613" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-
-  <!-- ========== Cradle gripping the phone ========== -->
-  <rect x="306" y="548" width="188" height="62" rx="20" fill="#000000" opacity="0.55" filter="url(#blurSm)" transform="translate(0 5)"/>
-  <rect x="306" y="544" width="188" height="62" rx="20" fill="url(#bodyV)"/>
-  <rect x="306.8" y="544.8" width="186.4" height="60.4" rx="19.4" fill="none" stroke="url(#silver)" stroke-width="1.8" opacity="0.85"/>
-  <rect x="330" y="548" width="140" height="2.6" rx="1.3" fill="url(#silverLine)"/>
-  <rect x="326" y="590" width="148" height="1.4" rx="0.7" fill="url(#silverLine)" opacity="0.4"/>
-  <!-- Soft grip pad line where the phone meets the cradle -->
-  <rect x="318" y="556" width="164" height="6" rx="3" fill="#000000" opacity="0.7"/>
-  <path d="M474 552 A20 20 0 0 1 488 566" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.5"/>
 </svg>
-```
