@@ -1,144 +1,53 @@
-```svg
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 800" width="800" height="800" role="img" aria-labelledby="sideTitle sideDesc">
-  <title id="sideTitle">Magnetic rotating phone grip and stand, side view</title>
-  <desc id="sideDesc">Side view of a black aluminum-style magnetic phone grip showing its layered thickness, knurled rotating ring and hinge, with silver metallic highlights on a dark background.</desc>
+<radialGradient id="shadow" cx="0.5" cy="0.5" r="0.5">
+  <stop offset="0" stop-color="#000000" stop-opacity="0.9"/>
+  <stop offset="0.7" stop-color="#000000" stop-opacity="0.55"/>
+  <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+</radialGradient>
 
-  <defs>
-    <!-- Backdrop -->
-    <radialGradient id="bg" cx="0.5" cy="0.4" r="0.8">
-      <stop offset="0" stop-color="#2a2a2f"/>
-      <stop offset="0.5" stop-color="#111113"/>
-      <stop offset="1" stop-color="#020202"/>
-    </radialGradient>
+<linearGradient id="bodyMetal" x1="0.1" y1="0" x2="0.9" y2="1">
+  <stop offset="0" stop-color="#4c4c53"/>
+  <stop offset="0.25" stop-color="#1b1b1e"/>
+  <stop offset="0.55" stop-color="#08080a"/>
+  <stop offset="0.8" stop-color="#222226"/>
+  <stop offset="1" stop-color="#3d3d43"/>
+</linearGradient>
 
-    <!-- Light cone from above -->
-    <linearGradient id="lightCone" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#ffffff" stop-opacity="0.09"/>
-      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
-    </linearGradient>
+<linearGradient id="rimSilver" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#ffffff"/>
+  <stop offset="0.25" stop-color="#b9bcc2"/>
+  <stop offset="0.5" stop-color="#474a50"/>
+  <stop offset="0.75" stop-color="#9ea2a9"/>
+  <stop offset="1" stop-color="#e6e8ec"/>
+</linearGradient>
 
-    <!-- Black aluminum body (vertical sheen) -->
-    <linearGradient id="bodyV" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#5a5a62"/>
-      <stop offset="0.12" stop-color="#2c2c31"/>
-      <stop offset="0.5" stop-color="#0c0c0e"/>
-      <stop offset="0.85" stop-color="#18181b"/>
-      <stop offset="1" stop-color="#34343a"/>
-    </linearGradient>
+<linearGradient id="edgeLight" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#ffffff" stop-opacity="0.95"/>
+  <stop offset="0.35" stop-color="#ffffff" stop-opacity="0.12"/>
+  <stop offset="0.65" stop-color="#ffffff" stop-opacity="0"/>
+  <stop offset="1" stop-color="#ffffff" stop-opacity="0.35"/>
+</linearGradient>
 
-    <!-- Rotating ring body -->
-    <linearGradient id="ringV" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#46464c"/>
-      <stop offset="0.2" stop-color="#1d1d20"/>
-      <stop offset="0.6" stop-color="#09090a"/>
-      <stop offset="1" stop-color="#2b2b30"/>
-    </linearGradient>
+<radialGradient id="matteFace" cx="0.35" cy="0.3" r="0.95">
+  <stop offset="0" stop-color="#242428"/>
+  <stop offset="0.5" stop-color="#121214"/>
+  <stop offset="1" stop-color="#060607"/>
+</radialGradient>
 
-    <!-- Horizontal edge shading for rounded ends -->
-    <linearGradient id="endShade" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#000000" stop-opacity="0.55"/>
-      <stop offset="0.08" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="0.9" stop-color="#000000" stop-opacity="0"/>
-      <stop offset="1" stop-color="#000000" stop-opacity="0.6"/>
-    </linearGradient>
+<linearGradient id="magnetRing" x1="0" y1="0" x2="1" y2="1">
+  <stop offset="0" stop-color="#4a4a52"/>
+  <stop offset="0.3" stop-color="#202024"/>
+  <stop offset="0.6" stop-color="#0b0b0d"/>
+  <stop offset="1" stop-color="#34343a"/>
+</linearGradient>
 
-    <!-- Silver metallic -->
-    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#ffffff"/>
-      <stop offset="0.3" stop-color="#b9bcc2"/>
-      <stop offset="0.55" stop-color="#50535a"/>
-      <stop offset="0.8" stop-color="#9ea2a9"/>
-      <stop offset="1" stop-color="#e6e8ec"/>
-    </linearGradient>
+<radialGradient id="centerDisc" cx="0.38" cy="0.32" r="0.9">
+  <stop offset="0" stop-color="#2d2d32"/>
+  <stop offset="0.55" stop-color="#121214"/>
+  <stop offset="1" stop-color="#050506"/>
+</radialGradient>
 
-    <linearGradient id="silverLine" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#c9ccd1" stop-opacity="0"/>
-      <stop offset="0.2" stop-color="#c9ccd1" stop-opacity="0.9"/>
-      <stop offset="0.5" stop-color="#ffffff"/>
-      <stop offset="0.8" stop-color="#c9ccd1" stop-opacity="0.9"/>
-      <stop offset="1" stop-color="#c9ccd1" stop-opacity="0"/>
-    </linearGradient>
-
-    <!-- Hinge barrel -->
-    <radialGradient id="barrel" cx="0.35" cy="0.3" r="0.9">
-      <stop offset="0" stop-color="#55555c"/>
-      <stop offset="0.5" stop-color="#1b1b1e"/>
-      <stop offset="1" stop-color="#060607"/>
-    </radialGradient>
-
-    <!-- Gap shadow between pad and ring -->
-    <linearGradient id="gapShade" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#000000" stop-opacity="0.9"/>
-      <stop offset="1" stop-color="#000000" stop-opacity="0.2"/>
-    </linearGradient>
-
-    <filter id="blurLg" x="-30%" y="-100%" width="160%" height="300%">
-      <feGaussianBlur stdDeviation="16"/>
-    </filter>
-    <filter id="blurSm" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="2.5"/>
-    </filter>
-  </defs>
-
-  <!-- Background -->
-  <rect width="800" height="800" fill="url(#bg)"/>
-  <polygon points="300,0 500,0 700,560 100,560" fill="url(#lightCone)"/>
-
-  <!-- Floor line and soft contact shadow -->
-  <rect x="90" y="540" width="620" height="1.2" fill="url(#silverLine)" opacity="0.35"/>
-  <ellipse cx="400" cy="546" rx="250" ry="16" fill="#000000" opacity="0.95" filter="url(#blurLg)"/>
-  <ellipse cx="400" cy="540" rx="205" ry="6" fill="#000000" opacity="0.9" filter="url(#blurSm)"/>
-
-  <!-- ========== Magnetic base plate ========== -->
-  <rect x="200" y="492" width="400" height="46" rx="18" fill="url(#bodyV)"/>
-  <rect x="200" y="492" width="400" height="46" rx="18" fill="url(#endShade)"/>
-  <rect x="200.8" y="492.8" width="398.4" height="44.4" rx="17.4" fill="none" stroke="url(#silver)" stroke-width="1.6" opacity="0.8"/>
-  <!-- Top specular line -->
-  <rect x="222" y="495" width="356" height="2.4" rx="1.2" fill="url(#silverLine)" opacity="0.85"/>
-  <!-- Magnet seam -->
-  <rect x="216" y="520" width="368" height="1.6" rx="0.8" fill="#000000" opacity="0.8"/>
-  <rect x="226" y="522" width="348" height="1" fill="url(#silverLine)" opacity="0.3"/>
-
-  <!-- ========== Rotating knurled ring ========== -->
-  <rect x="222" y="458" width="356" height="40" rx="14" fill="url(#ringV)"/>
-  <!-- Knurl ticks -->
-  <line x1="236" y1="478" x2="564" y2="478" stroke="#6a6a72" stroke-width="26" stroke-dasharray="2.2 5.8" opacity="0.4"/>
-  <line x1="236" y1="478" x2="564" y2="478" stroke="#000000" stroke-width="26" stroke-dasharray="1.4 6.6" stroke-dashoffset="4" opacity="0.5"/>
-  <rect x="222" y="458" width="356" height="40" rx="14" fill="url(#endShade)"/>
-  <rect x="222.8" y="458.8" width="354.4" height="38.4" rx="13.4" fill="none" stroke="url(#silver)" stroke-width="1.2" opacity="0.65"/>
-  <rect x="240" y="460" width="320" height="2" rx="1" fill="url(#silverLine)" opacity="0.7"/>
-  <!-- Ring/base joint groove -->
-  <rect x="226" y="494" width="348" height="3" rx="1.5" fill="#000000" opacity="0.85"/>
-
-  <!-- Dark gap under the lifted pad -->
-  <path d="M262 452 L574 396 L574 460 L262 460 Z" fill="url(#gapShade)" opacity="0.75"/>
-
-  <!-- ========== Upper pad (rotated open around the hinge) ========== -->
-  <g transform="rotate(-9 262 436)">
-    <!-- pad shadow -->
-    <rect x="236" y="400" width="336" height="44" rx="19" fill="#000000" opacity="0.6" filter="url(#blurSm)"/>
-    <!-- pad body -->
-    <rect x="232" y="392" width="336" height="42" rx="19" fill="url(#bodyV)"/>
-    <rect x="232" y="392" width="336" height="42" rx="19" fill="url(#endShade)"/>
-    <rect x="232.8" y="392.8" width="334.4" height="40.4" rx="18.4" fill="none" stroke="url(#silver)" stroke-width="1.6" opacity="0.85"/>
-    <!-- top highlight -->
-    <rect x="262" y="395" width="276" height="2.6" rx="1.3" fill="url(#silverLine)"/>
-    <!-- lower bevel -->
-    <rect x="258" y="426" width="290" height="1.4" rx="0.7" fill="url(#silverLine)" opacity="0.35"/>
-    <!-- end glint -->
-    <path d="M548 398 A 19 19 0 0 1 564 414" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-  </g>
-
-  <!-- ========== Hinge barrel ========== -->
-  <circle cx="262" cy="438" r="27" fill="#000000" opacity="0.65" filter="url(#blurSm)" transform="translate(2 4)"/>
-  <circle cx="262" cy="436" r="26" fill="url(#barrel)"/>
-  <circle cx="262" cy="436" r="26" fill="none" stroke="url(#silver)" stroke-width="2.6"/>
-  <circle cx="262" cy="436" r="19" fill="none" stroke="#000000" stroke-width="2.4" opacity="0.85"/>
-  <circle cx="262" cy="436" r="15" fill="none" stroke="#ffffff" stroke-opacity="0.1" stroke-width="1"/>
-  <circle cx="262" cy="436" r="8" fill="#050506" stroke="url(#silver)" stroke-width="1.6"/>
-  <path d="M245 424 A 20 20 0 0 1 258 417" fill="none" stroke="#ffffff" stroke-width="2" stroke-linecap="round" opacity="0.55"/>
-
-  <!-- Small hinge connector on the ring side -->
-  <rect x="240" y="454" width="44" height="8" rx="3" fill="url(#bodyV)" stroke="url(#silver)" stroke-width="0.8" opacity="0.9"/>
-</svg>
-```
+<radialGradient id="discShadow" cx="0.5" cy="0.5" r="0.5">
+  <stop offset="0" stop-color="#000000" stop-opacity="0.8"/>
+  <stop offset="0.75" stop-color="#000000" stop-opacity="0.45"/>
+  <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+</radialGradient>
