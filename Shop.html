@@ -1,87 +1,188 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SK GRIP PRO - Your Phone. Your Perfect Grip.</title>
-  <meta name="description" content="Premium magnetic 360° rotating phone grip & stand, compatible with iPhone MagSafe and Android." />
-  <link rel="stylesheet" href="css/style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop All Products | SK GRIP PRO</title>
+  <meta name="description" content="Browse all SK GRIP PRO products. Search by name and filter by category.">
+  <meta name="theme-color" content="#0a0a0a">
+
+  <link rel="stylesheet" href="css/style.css">
+
+  <style>
+    .shop-wrap {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
+    }
+
+    .shop-section {
+      padding: 40px 0 24px;
+    }
+
+    .shop-toolbar select.filter-select {
+      min-width: 190px;
+    }
+
+    .shop-note {
+      margin: 0 0 28px;
+      font-size: 0.9rem;
+      color: #9ea2a9;
+      text-align: center;
+    }
+
+    .shop-loading {
+      padding: 48px 20px;
+      text-align: center;
+      color: #c9ccd1;
+    }
+
+    @media (max-width: 768px) {
+      .shop-toolbar select.filter-select { width: 100%; }
+    }
+  </style>
 </head>
+
 <body>
-  <header class="header">
-    <div class="logo">SK GRIP PRO</div>
-    <nav class="nav" id="nav-menu">
-      <a href="index.html" class="nav-link active">Home</a>
-      <a href="shop.html" class="nav-link">Shop</a>
-      <a href="about.html" class="nav-link">About Us</a>
-      <a href="contact.html" class="nav-link">Contact Us</a>
-    </nav>
-    <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation">&#9776;</button>
-  </header>
 
-  <main>
-    <section class="hero">
-      <div class="hero-text">
-        <h1>YOUR PHONE.<br />YOUR PERFECT GRIP.</h1>
-        <p>SK Grip Pro Magnetic 360° Rotating Phone Grip & Stand. Premium aluminium alloy, strong magnetic attachment, compatible with iPhone MagSafe and Android.</p>
-        <a href="shop.html" class="btn btn-primary">Shop Now</a>
-      </div>
-      <div class="hero-image">
-        <img src="images/product-hero.jpg" alt="SK Grip Pro - Phone Grip & Stand" />
+  <!-- Shared header placeholder -->
+  <div id="site-header"></div>
+
+  <main id="main-content">
+
+    <!-- Page heading -->
+    <section class="page-header">
+      <div class="container">
+        <span class="eyebrow">SK GRIP PRO</span>
+        <h1>Shop All Products</h1>
+        <p>Browse our premium smartphone accessories. Search by name or filter by category.</p>
       </div>
     </section>
 
-    <section class="features">
-      <h2>Product Features</h2>
-      <ul>
-        <li>Premium aluminium alloy construction</li>
-        <li>360-degree rotation for maximum flexibility</li>
-        <li>Strong magnetic attachment</li>
-        <li>Compatible with MagSafe iPhones</li>
-        <li>Includes magnetic adapter ring for Android phones</li>
-        <li>Sleek black colour</li>
-      </ul>
+    <section class="shop-section">
+      <div class="shop-wrap">
+
+        <!-- Search, filter and sort -->
+        <div class="shop-toolbar">
+          <input
+            type="search"
+            id="product-search"
+            placeholder="Search products..."
+            aria-label="Search products"
+            autocomplete="off">
+
+          <select id="category-filter" class="filter-select" aria-label="Filter by category">
+            <option value="">All categories</option>
+          </select>
+
+          <select id="product-sort" class="filter-select" aria-label="Sort products">
+            <option value="default">Sort: Default</option>
+            <option value="name-asc">Name: A to Z</option>
+            <option value="name-desc">Name: Z to A</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+          </select>
+
+          <span id="results-count" aria-live="polite"></span>
+        </div>
+
+        <!-- Optional category buttons (filled by js/app.js if present) -->
+        <div id="category-buttons" style="margin-bottom:24px"></div>
+
+        <!-- Products are rendered here by js/app.js -->
+        <div id="product-grid" aria-live="polite">
+          <div class="shop-loading">Loading products...</div>
+        </div>
+
+        <noscript>
+          <div class="skgp-empty">
+            <h3>JavaScript is required</h3>
+            <p>Please enable JavaScript in your browser to view our products, or contact us to place an order.</p>
+          </div>
+        </noscript>
+
+        <p class="shop-note" style="margin-top:32px">
+          Prices, shipping details and return conditions are confirmed before an order is placed.
+        </p>
+
+      </div>
     </section>
 
-    <section class="how-it-works">
-      <h2>How It Works</h2>
-      <ol>
-        <li>Attach the grip to your phone or case.</li>
-        <li>Enjoy a comfortable and secure hold.</li>
-        <li>Rotate 360° to use as a stand or holder.</li>
-        <li>Use the magnetic feature to connect to MagSafe accessories or mounts.</li>
-      </ol>
-    </section>
-
-    <section class="faq">
-      <h2>Frequently Asked Questions</h2>
-      <details>
-        <summary>Is SK Grip Pro compatible with all phones?</summary>
-        <p>It works directly with MagSafe iPhones and includes an adapter ring for compatible Android phones.</p>
-      </details>
-      <details>
-        <summary>How strong is the magnetic attachment?</summary>
-        <p>The premium aluminium alloy and magnet combination provides a secure hold suitable for daily use.</p>
-      </details>
-      <details>
-        <summary>Can I use the grip as a stand?</summary>
-        <p>Yes, simply rotate to prop your phone in horizontal or vertical orientation.</p>
-      </details>
-    </section>
   </main>
 
-  <footer>
-    <div class="footer-container">
-      <div>© 2026 SK GRIP PRO</div>
-      <nav>
-        <a href="shipping.html">Shipping Policy</a> |
-        <a href="returns.html">Return & Refund Policy</a> |
-        <a href="privacy.html">Privacy Policy</a> |
-        <a href="terms.html">Terms & Conditions</a>
-      </nav>
-    </div>
-  </footer>
+  <!-- Shared footer placeholder -->
+  <div id="site-footer"></div>
 
-  <script src="js/script.js"></script>
+  <!-- Scripts: load in this order -->
+  <script src="js/config.js"></script>
+  <script src="js/products.js"></script>
+  <script src="js/app.js"></script>
+
+  <!-- Sorting for the dropdown (js/app.js does not include sorting) -->
+  <script>
+    (function () {
+      "use strict";
+
+      var grid = document.getElementById("product-grid");
+      var sortSelect = document.getElementById("product-sort");
+      if (!grid || !sortSelect) {
+        return;
+      }
+
+      function priceOf(card) {
+        var el = card.querySelector(".skgp-price-main");
+        var value = el ? parseFloat(el.textContent.replace(/[^0-9.]/g, "")) : NaN;
+        return isNaN(value) ? Infinity : value;
+      }
+
+      function nameOf(card) {
+        var el = card.querySelector("h3");
+        return el ? el.textContent.trim().toLowerCase() : "";
+      }
+
+      function applySort() {
+        var list = grid.querySelector(".skgp-grid");
+        if (!list) {
+          return;
+        }
+        var cards = Array.prototype.slice.call(list.children);
+        cards.forEach(function (card, i) {
+          if (!card.hasAttribute("data-order")) {
+            card.setAttribute("data-order", String(i));
+          }
+        });
+
+        var mode = sortSelect.value;
+        cards.sort(function (a, b) {
+          switch (mode) {
+            case "name-asc":
+              return nameOf(a).localeCompare(nameOf(b));
+            case "name-desc":
+              return nameOf(b).localeCompare(nameOf(a));
+            case "price-asc":
+              return priceOf(a) - priceOf(b);
+            case "price-desc":
+              return (priceOf(b) === Infinity ? -1 : priceOf(b)) - (priceOf(a) === Infinity ? -1 : priceOf(a));
+            default:
+              return Number(a.getAttribute("data-order")) - Number(b.getAttribute("data-order"));
+          }
+        });
+
+        cards.forEach(function (card) {
+          list.appendChild(card);
+        });
+      }
+
+      sortSelect.addEventListener("change", applySort);
+
+      // Re-apply the chosen sort whenever the grid is redrawn (search or filter changes).
+      if (window.MutationObserver) {
+        new MutationObserver(applySort).observe(grid, { childList: true });
+      }
+
+      document.addEventListener("DOMContentLoaded", applySort);
+    })();
+  </script>
 </body>
 </html>
