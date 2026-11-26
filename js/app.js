@@ -487,4 +487,190 @@ body.skx a{color:inherit;text-decoration:none}
     }
     var search = document.getElementById("shop-search");
     var sort = document.getElementById("shop-sort");
-    if (search) search.addEventListener("input", function 
+    if (search) search.addEventListener("input", function   /* =====================================================================
+     PART 3 of 3: product page, cart page, events, start-up
+     ===================================================================== */
+
+  /* ---------- Product page (product.html?id=...) ---------- */
+  function initProduct() {
+    var root = document.getElementById("product-detail");
+    if (!root) return;
+    var id = "";
+    try { id = new URLSearchParams(location.search).get("id") || ""; } catch (e) { /* ignore */ }
+    var p = findProduct(id);
+
+    if (!p) {
+      root.innerHTML = '<div class="skx-empty" style="margin:40px 0">Product not found. <br><br><a class="skx-btn primary" href="shop.html">Back to Shop</a></div>';
+      return;
+    }
+    document.title = p.name + " | " + STORE;
+
+    var thumbs = p.images.length > 1 ? '<div class="skx-thumbs">' + p.images.map(function (src, i) {
+      return '<button type="button" data-thumb="' + esc(src) + '" aria-label="Show picture ' + (i + 1) + '"><img src="' + esc(src) + '" alt="" data-skx-img="1"></button>';
+    }).join("") + '</div>' : '';
+
+    root.innerHTML =
+      '<div class="skx-detail">' +
+        '<div class="skx-gallery"><div class="main"><img id="skx-main-img" src="' + esc(p.image) + '" alt="' + esc(p.name) + '" data-skx-img="1"></div>' + thumbs + '</div>' +
+        '<div class="skx-info">' +
+          (p.category ? '<span class="skx-cat">' + esc(p.category) + '</span>' : '') +
+          '<h1>' + esc(p.name) + '</h1>' +
+          '<div class="skx-pricebox">' + priceHTML(p) + '</div>' +
+          '<p>' + esc(p.description) + '</p>' +
+          '<p><strong>' + (p.available ? 'Available' : 'Currently unavailable') + '</strong></p>' +
+          '<div class="skx-buy">' +
+            '<input class="skx-qtyin" id="skx-qty" type="number" min="1" max="99" value="1" inputmode="numeric" aria-label="Quantity">' +
+            '<button type="button" class="skx-btn primary" data-add-detail="' + esc(p.id) + '"' + (p.available ? '' : ' disabled') + '>Add to Cart</button>' +
+            '<button type="button" class="skx-btn wa" data-wa-product="' + esc(p.id) + '"' + (p.available ? '' : ' disabled') + '>Order on WhatsApp</button>' +
+          '</div>' +
+          '<a class="skx-back" href="shop.html">&larr; Back to Shop</a>' +
+        '</div>' +
+      '</div>';
+  }
+
+  /* ---------- Cart page ---------- */
+  /** Draws cart rows, subtotal and total into #cart-root. */
+  function renderCart() {
+    var root = document.getElementById("cart-root");
+    if (!root) return;
+    var lines = cartLines();
+    if (!lines.length) {
+      root.innerHTML = '<div class="skx-empty" style="margin:20px 0">Your cart is empty.<br><br><a class="skx-btn primary" href="shop.html">Continue Shopping</a></div>';
+      return;
+    }
+    var rows = lines.map(function (l) {
+      var p = l.p, id = esc(p.id);
+      var unit = p.price === null ? 'Price to be confirmed' : esc(money(p.price)) + ' each';
+      var total = p.price === null ? '&mdash;' : esc(money(p.price * l.qty));
+      return '' +
+        '<div class="skx-row">' +
+          '<img src="' + esc(p.image) + '" alt="' + esc(p.name) + '" data-skx-img="1">' +
+          '<div><h3><a href="product.html?id=' + encodeURIComponent(p.id) + '">' + esc(p.name) + '</a></h3>' +
+            '<div class="u">' + unit + '</div>' +
+            '<div class="skx-qty">' +
+              '<button type="button" data-cart="dec" data-id="' + id + '" aria-label="Decrease quantity">&minus;</button>' +
+              '<span aria-live="polite">' + l.qty + '</span>' +
+              '<button type="button" data-cart="inc" data-id="' + id + '" aria-label="Increase quantity">+</button>' +
+            '</div>' +
+            '<button type="button" class="skx-rm" data-cart="rm" data-id="' + id + '">Remove</button></div>' +
+          '<div class="skx-line">' + total + '</div>' +
+        '</div>';
+    }).join("");
+
+    var t = cartTotals();
+    root.innerHTML = rows +
+      '<div class="skx-summary">' +
+        '<div class="r"><span>Subtotal</span><span>' + esc(money(t.subtotal)) + '</span></div>' +
+        (t.pending ? '<div class="r"><span>' + t.pending + ' item(s) waiting for a price confirmation</span><span>&mdash;</span></div>' : '') +
+        '<div class="r t"><span>Total</span><span>' + esc(money(t.subtotal)) + '</span></div>' +
+        '<p style="margin:0;color:var(--muted);font-size:.85rem">Price, availability and shipping are confirmed before your order is final.</p>' +
+        '<div class="skx-actions">' +
+          '<button type="button" class="skx-btn wa" data-cart="wa">Order on WhatsApp</button>' +
+          '<a class="skx-btn" href="shop.html">Continue Shopping</a>' +
+          '<button type="button" class="skx-btn" data-cart="clear">Clear Cart</button>' +
+        '</div>' +
+      '</div>';
+  }
+
+  /* ---------- Events: ONE delegated listener for the whole site ---------- */
+  function closeMenu() {
+    var nav = document.getElementById("skx-nav"), b = document.getElementById("skx-burger");
+    if (nav) nav.classList.remove("open");
+    if (b) { b.classList.remove("open"); b.setAttribute("aria-expanded", "false"); }
+  }
+  function qtyFromInput() {
+    var el = document.getElementById("skx-qty");
+    return Math.max(1, Math.min(99, parseInt(el && el.value, 10) || 1));
+  }
+
+  function bindEvents() {
+    document.addEventListener("click", function (e) {
+      var t;
+
+      if ((t = e.target.closest("[data-add]"))) {                 // cards (shop / home)
+        e.preventDefault();
+        if (!t.disabled) addToCart(t.getAttribute("data-add"), 1);
+        return;
+      }
+      if ((t = e.target.closest("[data-add-detail]"))) {          // product page
+        if (!t.disabled) addToCart(t.getAttribute("data-add-detail"), qtyFromInput());
+        return;
+      }
+      if ((t = e.target.closest("[data-wa-product]"))) {          // product page WhatsApp
+        if (!t.disabled) orderProductWhatsApp(t.getAttribute("data-wa-product"), qtyFromInput());
+        return;
+      }
+      if ((t = e.target.closest("[data-thumb]"))) {               // gallery thumbnails
+        var main = document.getElementById("skx-main-img");
+        if (main) { main.removeAttribute("data-skx-fb"); main.src = t.getAttribute("data-thumb"); }
+        return;
+      }
+      if ((t = e.target.closest("[data-cart]"))) {                // cart page buttons
+        var act = t.getAttribute("data-cart"), id = t.getAttribute("data-id");
+        var cur = readCart().filter(function (i) { return String(i.id) === String(id); })[0];
+        if (act === "inc" && cur) setQty(id, Number(cur.qty) + 1);
+        else if (act === "dec" && cur) setQty(id, Number(cur.qty) - 1);
+        else if (act === "rm") removeItem(id);
+        else if (act === "clear") { if (window.confirm("Remove all items from your cart?")) clearCart(); }
+        else if (act === "wa") orderCartWhatsApp();
+        return;
+      }
+      if (e.target.closest("#skx-burger")) {                      // mobile menu button
+        var nav = document.getElementById("skx-nav"), b = document.getElementById("skx-burger");
+        if (nav && b) {
+          var open = !nav.classList.contains("open");
+          nav.classList.toggle("open", open);
+          b.classList.toggle("open", open);
+          b.setAttribute("aria-expanded", open ? "true" : "false");
+        }
+        return;
+      }
+      if (e.target.closest("#skx-nav a")) closeMenu();            // tapping a link closes the menu
+    });
+
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeMenu(); });
+
+    // Missing or broken product images switch once to the default image.
+    document.addEventListener("error", function (e) {
+      var im = e.target;
+      if (im && im.tagName === "IMG" && im.hasAttribute("data-skx-img") && !im.getAttribute("data-skx-fb")) {
+        im.setAttribute("data-skx-fb", "1");
+        im.src = DEFAULT_IMG;
+      }
+    }, true);
+
+    // Keep the cart in sync between tabs and when using the Back button.
+    window.addEventListener("storage", updateCount);
+    window.addEventListener("pageshow", updateCount);
+  }
+
+  /* ---------- Small public API (for optional use in other pages) ---------- */
+  window.SKGP = {
+    addToCart: addToCart,
+    removeItem: removeItem,
+    setQty: setQty,
+    clearCart: clearCart,
+    getCount: function () { return cartTotals().count; },
+    orderOnWhatsApp: orderCartWhatsApp
+  };
+
+  /* ---------- Start ---------- */
+  function init() {
+    try {
+      loadProducts();
+      injectStyles();
+      document.body.classList.add("skx");
+      buildLayout();
+      setActiveLinks();
+      bindEvents();
+      initShop();
+      initHome();
+      initProduct();
+      updateCount();      // also draws the cart page when #cart-root exists
+    } catch (err) {
+      console.error("[SK GRIP PRO] app.js error:", err);
+    }
+  }
+  if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+  else init();
+})();
