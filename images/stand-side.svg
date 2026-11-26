@@ -1,0 +1,44 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f4f8ff"/>
+      <stop offset=".5" stop-color="#8795a8"/>
+      <stop offset="1" stop-color="#dce5f0"/>
+    </linearGradient>
+    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#00e5ff"/>
+      <stop offset="1" stop-color="#075bff"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="512" height="512" rx="35" fill="#080d18"/>
+
+  <!-- Side view magnetic head -->
+  <path d="M205 95 Q175 150 205 215 L240 225 L260 105 Z"
+        fill="url(#silver)" stroke="#dce8f7" stroke-width="4"/>
+  <path d="M205 105 Q180 155 208 205 L231 211 L245 112 Z"
+        fill="#15253a" stroke="url(#blue)" stroke-width="5"/>
+  <path d="M222 125 Q205 155 225 190" fill="none"
+        stroke="#d8e5f5" stroke-width="5"/>
+
+  <!-- Rotating hinge -->
+  <circle cx="258" cy="220" r="31" fill="#17283d"
+          stroke="url(#silver)" stroke-width="10"/>
+  <circle cx="258" cy="220" r="12" fill="url(#blue)"/>
+
+  <!-- Adjustable support arm -->
+  <path d="M258 250 L300 350 L268 365 L225 260 Z"
+        fill="url(#silver)" stroke="#cbd8e8" stroke-width="3"/>
+  <path d="M260 270 L280 335" stroke="#24364d" stroke-width="8"/>
+
+  <!-- Base -->
+  <path d="M145 372 Q255 345 367 372 L390 415
+           Q394 435 370 438 L140 438 Q116 435 122 415 Z"
+        fill="url(#silver)" stroke="#e5efff" stroke-width="3"/>
+  <path d="M145 404 Q255 383 365 404" fill="none"
+        stroke="url(#blue)" stroke-width="5"/>
+  <text x="256" y="426" text-anchor="middle"
+        font-family="Arial" font-size="16" font-weight="bold"
+        letter-spacing="3" fill="#101b2b">SK GRIP PRO</text>
+</svg>
