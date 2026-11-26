@@ -1,90 +1,36 @@
-/**
- * SK GRIP PRO - Store Configuration
- * File: js/config.js
+/*!
+ * SK GRIP PRO - js/config.js
+ * Store settings used by every page.
+ * Load order on every page: js/config.js -> js/products.js -> js/app.js
  *
- * Loaded before js/products.js and js/app.js.
- * Exposes a single global object: window.STORE_CONFIG
- *
- * IMPORTANT: This file is public (served via GitHub Pages).
- * Never add secret keys, passwords, API tokens or payment credentials here.
+ * Do NOT put passwords, API keys or payment credentials in this file.
+ * It is public: anyone can read it in their browser.
  */
-(function (window) {
-  "use strict";
+window.STORE_CONFIG = Object.freeze({
+  // ----- Brand -----
+  storeName: "SK GRIP PRO",
+  tagline: "Your phone. Your perfect grip.",
+  siteUrl: "https://shahzeb34356khan-beep.github.io/SKGripProWebsite/",
 
-  var websiteUrl = "https://shahzeb34356khan-beep.github.io/SKGripProWebsite/";
-  var phone = "03417698886";
-  var whatsapp = "923454827323";
-  var email = "shahzeb112ali@gmail.com";
+  // ----- Money -----
+  currency: "USD",          // currency code
+  currencySymbol: "$",      // shown before prices
 
-  var config = {
-    store: {
-      name: "SK GRIP PRO"
-    },
+  // ----- Contact (used in header, footer, contact page, WhatsApp orders) -----
+  phone: "03417698886",
+  whatsapp: "923454827323", // digits only: country code + number, no "+" and no spaces
+  email: "shahzeb112ali@gmail.com",
+  address: "",              // add your business address here when you want it shown
 
-    currency: {
-      code: "USD",
-      symbol: "$",
-      locale: "en-US"
-    },
+  // ----- Social media (leave "" to hide a link) -----
+  social: {
+    facebook: "",
+    instagram: "",
+    tiktok: "",
+    youtube: ""
+  },
 
-    contact: {
-      phone: phone,
-      phoneLink: "tel:" + phone,
-      whatsapp: whatsapp,
-      whatsappLink: "https://wa.me/" + whatsapp,
-      email: email,
-      emailLink: "mailto:" + email
-    },
-
-    website: {
-      url: websiteUrl
-    },
-
-    /**
-     * Helper: build a full URL for a page or asset on this site.
-     * Works with GitHub Pages project sites (sub-folder hosting).
-     * Example: STORE_CONFIG.getUrl("shipping.html")
-     */
-    getUrl: function (path) {
-      var cleanPath = String(path || "").replace(/^\/+/, "");
-      return websiteUrl + cleanPath;
-    },
-
-    /**
-     * Helper: format a number as currency using the store currency.
-     * Example: STORE_CONFIG.formatPrice(25) -> "$25.00"
-     */
-    formatPrice: function (amount) {
-      var value = Number(amount);
-      if (!isFinite(value)) {
-        return "";
-      }
-      try {
-        return new Intl.NumberFormat(config.currency.locale, {
-          style: "currency",
-          currency: config.currency.code
-        }).format(value);
-      } catch (error) {
-        return config.currency.symbol + value.toFixed(2);
-      }
-    },
-
-    /**
-     * Helper: build a WhatsApp link with an optional pre-filled message.
-     * Example: STORE_CONFIG.getWhatsAppLink("Hello, I have a question.")
-     */
-    getWhatsAppLink: function (message) {
-      var base = config.contact.whatsappLink;
-      return message ? base + "?text=" + encodeURIComponent(message) : base;
-    }
-  };
-
-  // Prevent accidental changes at runtime.
-  Object.freeze(config.store);
-  Object.freeze(config.currency);
-  Object.freeze(config.contact);
-  Object.freeze(config.website);
-  Object.freeze(config);
-
-  window.STORE_CONFIG = config;
-})(window);
+  // ----- Site behaviour -----
+  whatsappGreeting: "Hello SK GRIP PRO, I would like to place an order:",
+  defaultImage: "images/accessory.svg"   // shown when a product image is missing
+});
