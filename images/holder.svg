@@ -1,50 +1,167 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="hTitle hDesc">
+  <title id="hTitle">SK GRIP PRO Adjustable Phone Holder</title>
+  <desc id="hDesc">A premium desktop phone holder with a stable metallic base, an adjustable hinge, neon blue accents and a smartphone mounted vertically.</desc>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f5f8ff"/>
-      <stop offset=".5" stop-color="#8392a6"/>
-      <stop offset="1" stop-color="#e3eaf5"/>
+    <radialGradient id="bg" cx="50%" cy="48%" r="75%">
+      <stop offset="0" stop-color="#111c33"/>
+      <stop offset="0.6" stop-color="#070b14"/>
+      <stop offset="1" stop-color="#020409"/>
+    </radialGradient>
+
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6f9fd"/>
+      <stop offset="0.28" stop-color="#aeb7c4"/>
+      <stop offset="0.52" stop-color="#5b6472"/>
+      <stop offset="0.75" stop-color="#dbe2ec"/>
+      <stop offset="1" stop-color="#7c8695"/>
     </linearGradient>
-    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#00e5ff"/>
-      <stop offset="1" stop-color="#075bff"/>
+
+    <linearGradient id="metalV" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4a5361"/>
+      <stop offset="0.2" stop-color="#d9e0ea"/>
+      <stop offset="0.5" stop-color="#8b95a4"/>
+      <stop offset="0.8" stop-color="#2b313b"/>
+      <stop offset="1" stop-color="#14181f"/>
     </linearGradient>
+
+    <linearGradient id="matte" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2d3441"/>
+      <stop offset="0.5" stop-color="#14181f"/>
+      <stop offset="1" stop-color="#07090d"/>
+    </linearGradient>
+
+    <linearGradient id="baseTop" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f3644"/>
+      <stop offset="0.55" stop-color="#12161d"/>
+      <stop offset="1" stop-color="#06080c"/>
+    </linearGradient>
+
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8ff6ff"/>
+      <stop offset="0.5" stop-color="#1aa8ff"/>
+      <stop offset="1" stop-color="#0a5cff"/>
+    </linearGradient>
+
+    <linearGradient id="phoneBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e9eef5"/>
+      <stop offset="0.35" stop-color="#7d8794"/>
+      <stop offset="0.65" stop-color="#2a303a"/>
+      <stop offset="1" stop-color="#b9c2cf"/>
+    </linearGradient>
+
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d2145"/>
+      <stop offset="0.5" stop-color="#050a14"/>
+      <stop offset="1" stop-color="#0a1f44"/>
+    </linearGradient>
+
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.4" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="brandMetal" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.45" stop-color="#b4bdca"/>
+      <stop offset="0.55" stop-color="#6d7787"/>
+      <stop offset="1" stop-color="#d7dee8"/>
+    </linearGradient>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8"/>
+    </filter>
   </defs>
 
-  <rect width="512" height="512" rx="35" fill="#080d18"/>
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <ellipse cx="256" cy="270" rx="215" ry="190" fill="#1aa8ff" opacity="0.10" filter="url(#soft)"/>
 
-  <!-- Phone holder cradle -->
-  <path d="M155 105 Q155 85 180 85 L332 85 Q357 85 357 110
-           L357 315 Q357 340 332 340 L180 340 Q155 340 155 315 Z"
-        fill="#17283d" stroke="url(#silver)" stroke-width="12"/>
+  <!-- Brand -->
+  <text x="256" y="54" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800" letter-spacing="8" fill="url(#metal)">SK GRIP PRO</text>
+  <line x1="198" y1="68" x2="314" y2="68" stroke="url(#neon)" stroke-width="2.5" stroke-linecap="round" filter="url(#glow)"/>
 
-  <path d="M180 120 L332 120 L332 295 L180 295 Z"
-        fill="#0a1424" stroke="url(#blue)" stroke-width="5"/>
+  <!-- Ground shadow and glow -->
+  <ellipse cx="256" cy="446" rx="182" ry="22" fill="#000" opacity="0.75" filter="url(#shadow)"/>
+  <ellipse cx="256" cy="440" rx="150" ry="14" fill="#1aa8ff" opacity="0.20" filter="url(#soft)"/>
 
-  <!-- Holder side grips -->
-  <path d="M135 155 L175 155 L175 265 L135 265 Q120 265 120 250 L120 170 Q120 155 135 155 Z"
-        fill="url(#silver)"/>
-  <path d="M337 155 L377 155 Q392 155 392 170 L392 250
-           Q392 265 377 265 L337 265 Z"
-        fill="url(#silver)"/>
+  <!-- Base: front wall -->
+  <path d="M92 410 Q90 424 106 424 L406 424 Q422 424 420 410 L420 424 Q420 440 400 440 L112 440 Q92 440 92 424 Z" fill="url(#metalV)"/>
+  <path d="M92 424 Q92 440 112 440 L400 440 Q420 440 420 424" fill="none" stroke="#000" stroke-opacity="0.5" stroke-width="1.5"/>
+  <line x1="150" y1="432" x2="362" y2="432" stroke="url(#neon)" stroke-width="3" stroke-linecap="round" filter="url(#glow)"/>
 
-  <!-- Bottom support -->
-  <path d="M175 315 L337 315 L360 350 L152 350 Z"
-        fill="url(#silver)" stroke="#dce8f7" stroke-width="3"/>
+  <!-- Base: top face -->
+  <path d="M112 372 Q112 362 132 362 L380 362 Q400 362 400 372 L420 408 Q422 424 404 424 L108 424 Q90 424 92 408 Z" fill="url(#baseTop)"/>
+  <path d="M112 372 Q112 362 132 362 L380 362 Q400 362 400 372 L420 408 Q422 424 404 424 L108 424 Q90 424 92 408 Z" fill="none" stroke="url(#metal)" stroke-width="2.5"/>
+  <path d="M122 376 L390 376" stroke="#1aa8ff" stroke-opacity="0.45" stroke-width="1.5"/>
+  <path d="M104 372 Q106 366 130 365" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
 
-  <!-- Adjustable neck -->
-  <path d="M225 350 L287 350 L300 390 L212 390 Z"
-        fill="url(#silver)"/>
+  <!-- Base branding -->
+  <text transform="translate(256 406) scale(1 0.5)" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="26" font-weight="800" letter-spacing="6" fill="url(#brandMetal)">SK GRIP PRO</text>
+  <line x1="196" y1="414" x2="316" y2="414" stroke="url(#neon)" stroke-width="1.6" stroke-linecap="round" filter="url(#glow)"/>
 
-  <!-- Base -->
-  <path d="M145 390 Q256 365 367 390 L390 425
-           Q394 440 370 443 L142 443 Q118 440 122 425 Z"
-        fill="url(#silver)" stroke="#e4edfa" stroke-width="3"/>
-  <path d="M150 418 Q256 399 362 418"
-        fill="none" stroke="url(#blue)" stroke-width="5"/>
+  <!-- Stem -->
+  <rect x="242" y="344" width="28" height="30" fill="url(#metalV)"/>
+  <ellipse cx="256" cy="374" rx="30" ry="9" fill="url(#matte)" stroke="url(#metal)" stroke-width="1.5"/>
 
-  <text x="256" y="434" text-anchor="middle"
-        font-family="Arial" font-size="15" font-weight="bold"
-        letter-spacing="3" fill="#101b2b">SK GRIP PRO</text>
+  <!-- Holder back plate -->
+  <ellipse cx="256" cy="338" rx="70" ry="12" fill="#000" opacity="0.45" filter="url(#shadow)"/>
+  <rect x="190" y="114" width="132" height="218" rx="20" fill="url(#metalV)"/>
+  <rect x="190" y="114" width="132" height="218" rx="20" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1.2"/>
+
+  <!-- Phone -->
+  <rect x="200" y="98" width="112" height="216" rx="22" fill="url(#phoneBody)"/>
+  <rect x="200" y="98" width="112" height="216" rx="22" fill="none" stroke="#ffffff" stroke-opacity="0.45" stroke-width="1.2"/>
+  <rect x="206" y="104" width="100" height="204" rx="17" fill="url(#screen)"/>
+  <rect x="206" y="104" width="100" height="204" rx="17" fill="url(#glass)"/>
+  <rect x="239" y="113" width="34" height="9" rx="4.5" fill="#010204"/>
+
+  <!-- Screen content -->
+  <circle cx="256" cy="196" r="34" fill="none" stroke="url(#neon)" stroke-width="2.5" filter="url(#glow)"/>
+  <circle cx="256" cy="196" r="22" fill="none" stroke="url(#neon)" stroke-width="1.5" opacity="0.7"/>
+  <text x="256" y="205" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="24" font-weight="800" fill="url(#neon)" filter="url(#glow)">SK</text>
+  <rect x="226" y="248" width="60" height="5" rx="2.5" fill="#1aa8ff" opacity="0.55"/>
+  <rect x="236" y="262" width="40" height="5" rx="2.5" fill="#1aa8ff" opacity="0.3"/>
+  <path d="M214 110 A50 50 0 0 1 244 106" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Bottom lip -->
+  <rect x="194" y="298" width="124" height="26" rx="9" fill="url(#metal)"/>
+  <rect x="194" y="298" width="124" height="26" rx="9" fill="none" stroke="#ffffff" stroke-opacity="0.45" stroke-width="1.2"/>
+  <rect x="204" y="306" width="104" height="10" rx="5" fill="url(#matte)"/>
+  <line x1="222" y1="311" x2="290" y2="311" stroke="url(#neon)" stroke-width="2" stroke-linecap="round" filter="url(#glow)"/>
+
+  <!-- Adjustable hinge -->
+  <circle cx="256" cy="344" r="17" fill="url(#metal)"/>
+  <circle cx="256" cy="344" r="12" fill="url(#matte)"/>
+  <circle cx="256" cy="344" r="7" fill="none" stroke="url(#neon)" stroke-width="2.5" filter="url(#glow)"/>
+  <circle cx="256" cy="344" r="2.5" fill="#8ff6ff"/>
+
+  <!-- Angle adjustment arcs -->
+  <g fill="none" stroke="url(#neon)" stroke-width="3" stroke-linecap="round" filter="url(#glow)">
+    <path d="M216 358 A44 44 0 0 1 222 322"/>
+    <path d="M296 358 A44 44 0 0 0 290 322"/>
+  </g>
+  <g fill="#6fe6ff" filter="url(#glow)">
+    <polygon points="219,314 214,324 227,323"/>
+    <polygon points="293,314 298,324 285,323"/>
+  </g>
+
+  <!-- Sparkles -->
+  <g fill="#8fe8ff" filter="url(#glow)">
+    <circle cx="80" cy="160" r="1.8" opacity="0.8"/>
+    <circle cx="440" cy="140" r="1.6" opacity="0.7"/>
+    <circle cx="64" cy="320" r="1.4" opacity="0.6"/>
+    <circle cx="452" cy="300" r="1.6" opacity="0.7"/>
+    <circle cx="380" cy="100" r="1.3" opacity="0.6"/>
+  </g>
+
+  <!-- Tagline -->
+  <text x="256" y="486" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="5" fill="#8fa6c4">ADJUSTABLE PHONE HOLDER</text>
 </svg>
