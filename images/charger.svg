@@ -1,43 +1,152 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" preserveAspectRatio="xMidYMid meet" role="img" aria-labelledby="chTitle chDesc">
+  <title id="chTitle">SK GRIP PRO Wireless Charging Pad</title>
+  <desc id="chDesc">A metallic and matte black wireless charging pad with a glowing neon blue ring and a smartphone charging above it.</desc>
 
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
   <defs>
-    <linearGradient id="silver" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#f5f8ff"/>
-      <stop offset=".5" stop-color="#8493a7"/>
-      <stop offset="1" stop-color="#e3eaf5"/>
+    <radialGradient id="bg" cx="50%" cy="48%" r="75%">
+      <stop offset="0" stop-color="#101b33"/>
+      <stop offset="0.6" stop-color="#070b14"/>
+      <stop offset="1" stop-color="#020409"/>
+    </radialGradient>
+
+    <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f6f9fd"/>
+      <stop offset="0.28" stop-color="#aeb7c4"/>
+      <stop offset="0.52" stop-color="#5b6472"/>
+      <stop offset="0.75" stop-color="#dbe2ec"/>
+      <stop offset="1" stop-color="#7c8695"/>
     </linearGradient>
-    <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#00e5ff"/>
-      <stop offset="1" stop-color="#075bff"/>
+
+    <linearGradient id="side" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#4a5361"/>
+      <stop offset="0.2" stop-color="#d9e0ea"/>
+      <stop offset="0.45" stop-color="#8b95a4"/>
+      <stop offset="0.75" stop-color="#2b313b"/>
+      <stop offset="1" stop-color="#12151b"/>
     </linearGradient>
+
+    <radialGradient id="top" cx="40%" cy="35%" r="80%">
+      <stop offset="0" stop-color="#2b323f"/>
+      <stop offset="0.6" stop-color="#11151c"/>
+      <stop offset="1" stop-color="#07090d"/>
+    </radialGradient>
+
+    <radialGradient id="inner" cx="50%" cy="40%" r="75%">
+      <stop offset="0" stop-color="#1a2130"/>
+      <stop offset="1" stop-color="#05070b"/>
+    </radialGradient>
+
+    <linearGradient id="neon" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#8ff6ff"/>
+      <stop offset="0.5" stop-color="#1aa8ff"/>
+      <stop offset="1" stop-color="#0a5cff"/>
+    </linearGradient>
+
+    <linearGradient id="beam" gradientUnits="userSpaceOnUse" x1="0" y1="372" x2="0" y2="298">
+      <stop offset="0" stop-color="#1aa8ff" stop-opacity="0.45"/>
+      <stop offset="1" stop-color="#1aa8ff" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="phoneBody" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e9eef5"/>
+      <stop offset="0.35" stop-color="#7d8794"/>
+      <stop offset="0.65" stop-color="#2a303a"/>
+      <stop offset="1" stop-color="#b9c2cf"/>
+    </linearGradient>
+
+    <linearGradient id="screen" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0c1a33"/>
+      <stop offset="0.55" stop-color="#050a14"/>
+      <stop offset="1" stop-color="#07162e"/>
+    </linearGradient>
+
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.22"/>
+      <stop offset="0.4" stop-color="#ffffff" stop-opacity="0"/>
+    </linearGradient>
+
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3.5" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="14"/>
+    </filter>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="7"/>
+    </filter>
   </defs>
 
-  <rect width="512" height="512" rx="35" fill="#080d18"/>
+  <!-- Background -->
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <ellipse cx="256" cy="300" rx="220" ry="170" fill="#1aa8ff" opacity="0.10" filter="url(#soft)"/>
 
-  <!-- Wireless charging pad -->
-  <ellipse cx="256" cy="280" rx="155" ry="105"
-           fill="#111d30" stroke="url(#silver)" stroke-width="12"/>
-  <ellipse cx="256" cy="268" rx="130" ry="83"
-           fill="#17283d" stroke="url(#blue)" stroke-width="5"/>
-  <ellipse cx="256" cy="260" rx="90" ry="55"
-           fill="#0a1424" stroke="#aebdd0" stroke-width="4"/>
+  <!-- Brand -->
+  <text x="256" y="54" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="30" font-weight="800" letter-spacing="8" fill="url(#metal)">SK GRIP PRO</text>
+  <line x1="198" y1="68" x2="314" y2="68" stroke="url(#neon)" stroke-width="2.5" stroke-linecap="round" filter="url(#glow)"/>
 
-  <!-- Wireless charging symbol -->
-  <path d="M205 240 Q256 185 307 240"
-        fill="none" stroke="url(#blue)" stroke-width="10"
-        stroke-linecap="round"/>
-  <path d="M225 260 Q256 228 287 260"
-        fill="none" stroke="url(#silver)" stroke-width="9"
-        stroke-linecap="round"/>
-  <circle cx="256" cy="275" r="9" fill="#00e5ff"/>
+  <!-- Pad shadow and floor glow -->
+  <ellipse cx="256" cy="416" rx="172" ry="28" fill="#000" opacity="0.7" filter="url(#shadow)"/>
+  <ellipse cx="256" cy="404" rx="150" ry="22" fill="#1aa8ff" opacity="0.22" filter="url(#soft)"/>
 
-  <!-- Power indicator -->
-  <circle cx="256" cy="355" r="7" fill="#00e5ff"/>
+  <!-- Pad body -->
+  <path d="M106 372 V392 A150 42 0 0 0 406 392 V372 Z" fill="url(#side)"/>
+  <path d="M106 392 A150 42 0 0 0 406 392" fill="none" stroke="#000" stroke-opacity="0.5" stroke-width="2"/>
+  <ellipse cx="256" cy="372" rx="150" ry="42" fill="url(#top)"/>
+  <ellipse cx="256" cy="372" rx="150" ry="42" fill="none" stroke="url(#metal)" stroke-width="3"/>
+  <ellipse cx="256" cy="372" rx="139" ry="38" fill="none" stroke="#000" stroke-opacity="0.6" stroke-width="2"/>
 
-  <text x="256" y="430" text-anchor="middle"
-        font-family="Arial" font-size="19" font-weight="bold"
-        letter-spacing="3" fill="#eaf7ff">SK GRIP PRO</text>
-  <text x="256" y="457" text-anchor="middle"
-        font-family="Arial" font-size="12"
-        letter-spacing="3" fill="#00d9ff">WIRELESS CHARGING</text>
+  <!-- Neon ring -->
+  <ellipse cx="256" cy="372" rx="118" ry="33" fill="none" stroke="#1aa8ff" stroke-width="9" opacity="0.5" filter="url(#soft)"/>
+  <ellipse cx="256" cy="372" rx="118" ry="33" fill="none" stroke="url(#neon)" stroke-width="4" filter="url(#glow)"/>
+
+  <!-- Inner dish with branding -->
+  <ellipse cx="256" cy="372" rx="98" ry="26" fill="url(#inner)"/>
+  <ellipse cx="256" cy="372" rx="98" ry="26" fill="none" stroke="#8fa0b5" stroke-opacity="0.35" stroke-width="1.5"/>
+  <text transform="translate(256 378) scale(1 0.32)" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="800" letter-spacing="2" fill="url(#neon)" filter="url(#glow)">SK GRIP PRO</text>
+
+  <!-- Pad highlight -->
+  <path d="M120 360 A140 38 0 0 1 200 336" fill="none" stroke="#ffffff" stroke-opacity="0.55" stroke-width="2.5" stroke-linecap="round"/>
+
+  <!-- Charging beam and energy rings -->
+  <path d="M138 372 L204 304 L308 304 L374 372 Z" fill="url(#beam)"/>
+  <ellipse cx="256" cy="350" rx="100" ry="26" fill="none" stroke="url(#neon)" stroke-width="2" opacity="0.6" filter="url(#glow)"/>
+  <ellipse cx="256" cy="331" rx="84" ry="21" fill="none" stroke="url(#neon)" stroke-width="1.8" opacity="0.42" filter="url(#glow)"/>
+  <ellipse cx="256" cy="314" rx="68" ry="17" fill="none" stroke="url(#neon)" stroke-width="1.5" opacity="0.26" filter="url(#glow)"/>
+  <g stroke="url(#neon)" stroke-width="1.5" stroke-linecap="round" fill="none" opacity="0.7" filter="url(#glow)">
+    <path d="M216 368 C206 346 226 332 214 310"/>
+    <path d="M256 372 C246 350 266 336 256 314"/>
+    <path d="M296 368 C286 346 306 332 298 310"/>
+  </g>
+
+  <!-- Phone -->
+  <ellipse cx="256" cy="312" rx="62" ry="9" fill="#000" opacity="0.45" filter="url(#shadow)"/>
+  <rect x="199" y="158" width="3" height="24" rx="1.5" fill="#8a94a3"/>
+  <rect x="310" y="148" width="3" height="40" rx="1.5" fill="#8a94a3"/>
+  <rect x="200" y="100" width="112" height="204" rx="22" fill="url(#phoneBody)"/>
+  <rect x="200" y="100" width="112" height="204" rx="22" fill="none" stroke="#ffffff" stroke-opacity="0.45" stroke-width="1.2"/>
+  <rect x="206" y="106" width="100" height="192" rx="17" fill="url(#screen)"/>
+  <rect x="206" y="106" width="100" height="192" rx="17" fill="url(#glass)"/>
+  <rect x="239" y="115" width="34" height="9" rx="4.5" fill="#010204"/>
+
+  <!-- Screen: charging indicator -->
+  <polygon points="259,152 246,180 256,180 252,202 267,171 257,171" fill="url(#neon)" filter="url(#glow)"/>
+  <rect x="233" y="216" width="42" height="20" rx="5" fill="none" stroke="url(#neon)" stroke-width="2.5" filter="url(#glow)"/>
+  <rect x="276" y="222" width="4" height="8" rx="1.5" fill="url(#neon)"/>
+  <rect x="237" y="220" width="26" height="12" rx="2.5" fill="url(#neon)" filter="url(#glow)"/>
+  <text x="256" y="262" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="9" font-weight="700" letter-spacing="3" fill="#8fa6c4">CHARGING</text>
+  <path d="M214 112 A50 50 0 0 1 244 108" fill="none" stroke="#ffffff" stroke-opacity="0.5" stroke-width="2" stroke-linecap="round"/>
+
+  <!-- Sparkles -->
+  <g fill="#8fe8ff" filter="url(#glow)">
+    <circle cx="96" cy="170" r="1.8" opacity="0.8"/>
+    <circle cx="420" cy="150" r="1.6" opacity="0.7"/>
+    <circle cx="150" cy="290" r="1.3" opacity="0.6"/>
+    <circle cx="372" cy="270" r="1.5" opacity="0.7"/>
+    <circle cx="454" cy="330" r="1.6" opacity="0.6"/>
+    <circle cx="58" cy="330" r="1.4" opacity="0.6"/>
+  </g>
+
+  <!-- Tagline -->
+  <text x="256" y="486" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="5" fill="#8fa6c4">WIRELESS CHARGING PAD</text>
 </svg>
