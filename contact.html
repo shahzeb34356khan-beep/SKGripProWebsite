@@ -2,39 +2,117 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Contact Us | SK GRIP PRO</title>
-<meta name="description" content="SK GRIP PRO - Your phone. Your perfect grip. Premium mobile phone accessories.">
-<meta name="theme-color" content="#05070b">
-<link rel="icon" href="images/logo.svg" type="image/svg+xml">
-<link rel="stylesheet" href="css/style.css">
+<meta name="description" content="Contact SK GRIP PRO by phone, WhatsApp or email.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="images/accessory.svg" type="image/svg+xml">
+<style>
+  body{margin:0;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
+  .ct-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:28px;padding:8px 0 56px}
+  .ct-cards{display:grid;gap:14px;align-content:start}
+  .ct-card{display:block;padding:18px;border-radius:16px;background:#151515;border:1px solid rgba(255,255,255,.12);transition:.25s}
+  a.ct-card:hover{border-color:#168bff;box-shadow:0 0 20px rgba(22,139,255,.3)}
+  .ct-card small{display:block;color:#7cc4ff;letter-spacing:.18em;text-transform:uppercase;font-size:.7rem;margin-bottom:4px}
+  .ct-card strong{word-break:break-word}
+  .ct-form{padding:22px;border-radius:18px;background:#151515;border:1px solid rgba(255,255,255,.12)}
+  .ct-form label{display:block;margin:0 0 6px;color:#bdbdbd;font-size:.85rem}
+  .ct-form .skx-field{height:auto;min-height:48px;padding:12px 16px;margin-bottom:14px}
+  .ct-form textarea.skx-field{min-height:130px;resize:vertical}
+  .ct-msg{min-height:1.3em;margin:0 0 10px;font-size:.88rem;color:#ff9a9a}
+  @media (max-width:800px){.ct-grid{grid-template-columns:1fr}}
+</style>
 </head>
 <body data-page="contact">
+
 <div id="site-header"></div>
-<main>
-<div class="wrap">
-<div class="page-head"><p class="eyebrow">GET IN TOUCH</p><h1><span class="silver">Contact Us</span></h1>
-<p class="muted">Questions about an order or a product? Message us. WhatsApp is the fastest way to reach us.</p></div>
-<div class="cols">
-<div>
-<div class="feat" style="margin-bottom:1rem"><b>Phone</b><a id="phone" href="tel:+923417698886" style="font-size:1.2rem;font-weight:600">03417698886</a></div>
-<div class="feat" style="margin-bottom:1rem"><b>WhatsApp</b><a id="wa-number" href="https://wa.me/923454827323" target="_blank" rel="noopener" style="font-size:1.2rem;font-weight:600">03454827323</a>
-<a class="btn wide" id="wa-contact" target="_blank" rel="noopener" href="https://wa.me/923454827323?text=Hello%20SK%20GRIP%20PRO%2C%20I%20have%20a%20question.">Chat on WhatsApp</a></div>
-<div class="feat"><b>Email</b><a id="mail" href="mailto:shahzeb112ali@gmail.com" style="font-size:1.1rem;font-weight:600;word-break:break-all">shahzeb112ali@gmail.com</a></div>
-</div>
-<form id="cform">
-<p class="notice"><b>Demo form.</b> This form does not send messages from the website. It opens your email app with the message ready to send. For the fastest reply, please use WhatsApp.</p>
-<label for="name">Name</label><input id="name" name="name" autocomplete="name" required>
-<label for="email">Your email</label><input id="email" name="email" type="email" autocomplete="email" required>
-<label for="message">Message</label><textarea id="message" name="message" rows="5" required></textarea>
-<button class="btn wide" type="submit">Open email app</button>
-</form>
-</div>
-</div>
+
+<main class="skx-wrap">
+  <section class="skx-section" style="padding-bottom:12px">
+    <h1 class="skx-title">Contact Us</h1>
+    <p class="skx-sub">Questions about a product or an order? Send us a message.</p>
+  </section>
+
+  <div class="ct-grid">
+    <!-- Contact details (filled from js/config.js) -->
+    <div class="ct-cards" id="ct-cards">
+      <noscript><p>Please enable JavaScript to see our contact details.</p></noscript>
+    </div>
+
+    <!-- Message form -->
+    <form class="ct-form" id="ct-form" novalidate>
+      <label for="ct-name">Your name</label>
+      <input class="skx-field" id="ct-name" type="text" autocomplete="name" required>
+
+      <label for="ct-message">Your message</label>
+      <textarea class="skx-field" id="ct-message" required></textarea>
+
+      <p class="ct-msg" id="ct-error" role="alert"></p>
+      <div class="skx-actions" style="display:flex;flex-wrap:wrap;gap:10px">
+        <button type="button" class="skx-btn wa" id="ct-wa">Send on WhatsApp</button>
+        <button type="button" class="skx-btn" id="ct-mail">Send by Email</button>
+      </div>
+    </form>
+  </div>
 </main>
+
 <div id="site-footer"></div>
+
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
-<script src="js/app.js" defer></script>
+<script src="js/app.js"></script>
+
+<script>
+(function () {
+  "use strict";
+  var C = window.STORE_CONFIG || {};
+  var waNumber = String(C.whatsapp || "").replace(/\D/g, "");
+
+  function esc(v) {
+    return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+
+  // 1) Contact cards: only details that exist in config.js are shown.
+  var cards = [];
+  if (C.phone) cards.push('<a class="ct-card" href="tel:' + esc(String(C.phone).replace(/\s+/g, "")) + '"><small>Phone</small><strong>' + esc(C.phone) + '</strong></a>');
+  if (waNumber.length >= 8) cards.push('<a class="ct-card" href="https://wa.me/' + waNumber + '" target="_blank" rel="noopener noreferrer"><small>WhatsApp</small><strong>' + esc(C.whatsapp) + '</strong></a>');
+  if (C.email) cards.push('<a class="ct-card" href="mailto:' + esc(C.email) + '"><small>Email</small><strong>' + esc(C.email) + '</strong></a>');
+  if (C.address) cards.push('<div class="ct-card"><small>Address</small><strong>' + esc(C.address) + '</strong></div>');
+  var box = document.getElementById("ct-cards");
+  if (box) box.innerHTML = cards.length ? cards.join("") : '<div class="ct-card">Contact details will be added soon.</div>';
+
+  // 2) Form: builds a message and opens WhatsApp or the email app.
+  var err = document.getElementById("ct-error");
+  function read() {
+    var name = document.getElementById("ct-name").value.trim();
+    var msg = document.getElementById("ct-message").value.trim();
+    if (!name || !msg) { err.textContent = "Please enter your name and your message."; return null; }
+    err.textContent = "";
+    return { name: name, msg: msg };
+  }
+
+  document.getElementById("ct-wa").addEventListener("click", function () {
+    var d = read();
+    if (!d) return;
+    if (waNumber.length < 8) { err.textContent = "WhatsApp number is not set in js/config.js."; return; }
+    var text = "Hello " + (C.storeName || "SK GRIP PRO") + ",\nMy name is " + d.name + ".\n\n" + d.msg;
+    var url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text);
+    var w = null;
+    try { w = window.open(url, "_blank", "noopener"); } catch (e) { /* ignore */ }
+    if (!w) window.location.href = url;
+  });
+
+  document.getElementById("ct-mail").addEventListener("click", function () {
+    var d = read();
+    if (!d) return;
+    if (!C.email) { err.textContent = "Email address is not set in js/config.js."; return; }
+    window.location.href = "mailto:" + C.email +
+      "?subject=" + encodeURIComponent("Message from " + d.name) +
+      "&body=" + encodeURIComponent(d.msg + "\n\n" + d.name);
+  });
+})();
+</script>
 </body>
 </html>
