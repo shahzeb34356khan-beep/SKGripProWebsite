@@ -3,57 +3,69 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Contact Us | SK GRIP PRO</title>
-<meta name="description" content="Contact SK GRIP PRO by phone, WhatsApp or email.">
+<title>About Us | SK GRIP PRO</title>
+<meta name="description" content="About SK GRIP PRO - premium mobile accessories: magnetic phone stands, grips, holders and wireless chargers.">
 <meta name="theme-color" content="#000000">
 <link rel="icon" href="images/accessory.svg" type="image/svg+xml">
 <style>
   body{margin:0;background:#000;color:#fff;font-family:Arial,Helvetica,sans-serif}
-  .ct-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:28px;padding:8px 0 56px}
-  .ct-cards{display:grid;gap:14px;align-content:start}
-  .ct-card{display:block;padding:18px;border-radius:16px;background:#151515;border:1px solid rgba(255,255,255,.12);transition:.25s}
-  a.ct-card:hover{border-color:#168bff;box-shadow:0 0 20px rgba(22,139,255,.3)}
-  .ct-card small{display:block;color:#7cc4ff;letter-spacing:.18em;text-transform:uppercase;font-size:.7rem;margin-bottom:4px}
-  .ct-card strong{word-break:break-word}
-  .ct-form{padding:22px;border-radius:18px;background:#151515;border:1px solid rgba(255,255,255,.12)}
-  .ct-form label{display:block;margin:0 0 6px;color:#bdbdbd;font-size:.85rem}
-  .ct-form .skx-field{height:auto;min-height:48px;padding:12px 16px;margin-bottom:14px}
-  .ct-form textarea.skx-field{min-height:130px;resize:vertical}
-  .ct-msg{min-height:1.3em;margin:0 0 10px;font-size:.88rem;color:#ff9a9a}
-  @media (max-width:800px){.ct-grid{grid-template-columns:1fr}}
+  .ab-text{max-width:760px;margin:0 auto;padding:8px 0 40px}
+  .ab-text p{color:#bdbdbd;font-size:1.02rem}
+  .ab-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:48px}
+  .ab-step{padding:22px 18px;border-radius:18px;background:#151515;border:1px solid rgba(255,255,255,.12)}
+  .ab-step b{display:inline-flex;width:34px;height:34px;border-radius:50%;align-items:center;justify-content:center;background:#168bff;color:#fff;margin-bottom:10px}
+  .ab-step h3{margin:0 0 6px;font-size:1.02rem}
+  .ab-step p{margin:0;color:#bdbdbd;font-size:.9rem}
+  .ab-cta{text-align:center;padding:12px 18px 56px}
+  .ab-cta p{color:#bdbdbd;max-width:520px;margin:0 auto 20px}
+  @media (max-width:800px){.ab-steps{grid-template-columns:1fr}}
 </style>
 </head>
-<body data-page="contact">
+<body data-page="about">
 
 <div id="site-header"></div>
 
-<main class="skx-wrap">
-  <section class="skx-section" style="padding-bottom:12px">
-    <h1 class="skx-title">Contact Us</h1>
-    <p class="skx-sub">Questions about a product or an order? Send us a message.</p>
+<main>
+  <!-- Hero -->
+  <section class="skx-hero">
+    <div class="skx-wrap">
+      <span class="skx-kicker">About SK GRIP PRO</span>
+      <h1>Your Phone. <em>Your Perfect Grip.</em></h1>
+      <p>SK GRIP PRO offers premium mobile accessories with a modern, futuristic design.</p>
+    </div>
   </section>
 
-  <div class="ct-grid">
-    <!-- Contact details (filled from js/config.js) -->
-    <div class="ct-cards" id="ct-cards">
-      <noscript><p>Please enable JavaScript to see our contact details.</p></noscript>
-    </div>
-
-    <!-- Message form -->
-    <form class="ct-form" id="ct-form" novalidate>
-      <label for="ct-name">Your name</label>
-      <input class="skx-field" id="ct-name" type="text" autocomplete="name" required>
-
-      <label for="ct-message">Your message</label>
-      <textarea class="skx-field" id="ct-message" required></textarea>
-
-      <p class="ct-msg" id="ct-error" role="alert"></p>
-      <div class="skx-actions" style="display:flex;flex-wrap:wrap;gap:10px">
-        <button type="button" class="skx-btn wa" id="ct-wa">Send on WhatsApp</button>
-        <button type="button" class="skx-btn" id="ct-mail">Send by Email</button>
+  <!-- Who we are -->
+  <section class="skx-section">
+    <div class="skx-wrap">
+      <div class="ab-text">
+        <h2 class="skx-title">Who We Are</h2>
+        <p>SK GRIP PRO is an online store for mobile accessories. Our collection includes magnetic phone stands, phone grips, adjustable phone holders, wireless charging pads and other phone accessories.</p>
+        <p>Our products are designed around a simple idea: your phone should feel secure in your hand and look great on your desk. Our style is black with electric blue highlights and a metallic finish.</p>
       </div>
-    </form>
-  </div>
+    </div>
+  </section>
+
+  <!-- How ordering works -->
+  <section class="skx-section skx-alt">
+    <div class="skx-wrap">
+      <h2 class="skx-title">How Ordering Works</h2>
+      <p class="skx-sub">Simple and direct, in three steps.</p>
+      <div class="ab-steps">
+        <div class="ab-step"><b>1</b><h3>Choose your products</h3><p>Browse the shop and add the items you like to your cart.</p></div>
+        <div class="ab-step"><b>2</b><h3>Send your order</h3><p>Review your cart and send your order to us on WhatsApp.</p></div>
+        <div class="ab-step"><b>3</b><h3>We confirm the details</h3><p>We confirm price, availability and shipping with you before the order is final.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Call to action -->
+  <section class="ab-cta">
+    <h2 class="skx-title" style="margin-top:40px">Have a question?</h2>
+    <p>Ask us about any product before you order.</p>
+    <a class="skx-btn primary" href="shop.html">Shop Now</a>
+    <a class="skx-btn" href="contact.html" style="margin-left:8px">Contact Us</a>
+  </section>
 </main>
 
 <div id="site-footer"></div>
@@ -61,58 +73,5 @@
 <script src="js/config.js"></script>
 <script src="js/products.js"></script>
 <script src="js/app.js"></script>
-
-<script>
-(function () {
-  "use strict";
-  var C = window.STORE_CONFIG || {};
-  var waNumber = String(C.whatsapp || "").replace(/\D/g, "");
-
-  function esc(v) {
-    return String(v == null ? "" : v).replace(/[&<>"']/g, function (c) {
-      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
-    });
-  }
-
-  // 1) Contact cards: only details that exist in config.js are shown.
-  var cards = [];
-  if (C.phone) cards.push('<a class="ct-card" href="tel:' + esc(String(C.phone).replace(/\s+/g, "")) + '"><small>Phone</small><strong>' + esc(C.phone) + '</strong></a>');
-  if (waNumber.length >= 8) cards.push('<a class="ct-card" href="https://wa.me/' + waNumber + '" target="_blank" rel="noopener noreferrer"><small>WhatsApp</small><strong>' + esc(C.whatsapp) + '</strong></a>');
-  if (C.email) cards.push('<a class="ct-card" href="mailto:' + esc(C.email) + '"><small>Email</small><strong>' + esc(C.email) + '</strong></a>');
-  if (C.address) cards.push('<div class="ct-card"><small>Address</small><strong>' + esc(C.address) + '</strong></div>');
-  var box = document.getElementById("ct-cards");
-  if (box) box.innerHTML = cards.length ? cards.join("") : '<div class="ct-card">Contact details will be added soon.</div>';
-
-  // 2) Form: builds a message and opens WhatsApp or the email app.
-  var err = document.getElementById("ct-error");
-  function read() {
-    var name = document.getElementById("ct-name").value.trim();
-    var msg = document.getElementById("ct-message").value.trim();
-    if (!name || !msg) { err.textContent = "Please enter your name and your message."; return null; }
-    err.textContent = "";
-    return { name: name, msg: msg };
-  }
-
-  document.getElementById("ct-wa").addEventListener("click", function () {
-    var d = read();
-    if (!d) return;
-    if (waNumber.length < 8) { err.textContent = "WhatsApp number is not set in js/config.js."; return; }
-    var text = "Hello " + (C.storeName || "SK GRIP PRO") + ",\nMy name is " + d.name + ".\n\n" + d.msg;
-    var url = "https://wa.me/" + waNumber + "?text=" + encodeURIComponent(text);
-    var w = null;
-    try { w = window.open(url, "_blank", "noopener"); } catch (e) { /* ignore */ }
-    if (!w) window.location.href = url;
-  });
-
-  document.getElementById("ct-mail").addEventListener("click", function () {
-    var d = read();
-    if (!d) return;
-    if (!C.email) { err.textContent = "Email address is not set in js/config.js."; return; }
-    window.location.href = "mailto:" + C.email +
-      "?subject=" + encodeURIComponent("Message from " + d.name) +
-      "&body=" + encodeURIComponent(d.msg + "\n\n" + d.name);
-  });
-})();
-</script>
 </body>
 </html>
